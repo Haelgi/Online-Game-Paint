@@ -3,10 +3,9 @@ from button import Button, TextBtn
 from board import Board
 from top_bar import TopBar
 from main_menu import MainMenu
-from menu import Menu
-from tool_bar import ToolBar
 from leadboard import Leaderboard
 from player import Player
+from bottom_bar import BottomBar
 
 
 class Game:
@@ -14,7 +13,7 @@ class Game:
 
     def __init__(self):
         self.WIDTH = 1300
-        self.HEIGHT = 900
+        self.HEIGHT = 1000
         self.win = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.leadboard = Leaderboard(50, 120)
         self.board = Board(310, 120)
@@ -22,6 +21,8 @@ class Game:
         self.top_bar.change_round(1)
         self.players = [Player('Dima'),Player('Oleg'),Player('Gena'),Player('Vlad')]
         self.skip_btn = TextBtn(85, 790, 125, 60, (255,255,0), 'Skip')
+        self.bottom_bar = BottomBar(305, 850, self)
+        self.draw_color = (0,0,0)
        
 
         for player in self.players:
@@ -33,6 +34,7 @@ class Game:
         self.top_bar.draw(self.win)
         self.board.draw(self.win)
         self.skip_btn.draw(self.win)
+        self.bottom_bar.draw(self.win)
         pygame.display.update()
 
     def check_click(self):
@@ -46,7 +48,7 @@ class Game:
         
         clicked_board = self.board.click(*mouse)
         if clicked_board:
-            self.board.update(*clicked_board, (0,0,0))
+            self.board.update(*clicked_board, self.draw_color)
 
 
     def run(self):
@@ -63,6 +65,7 @@ class Game:
 
                 if pygame.mouse.get_pressed()[0]:
                     self.check_click()
+                    self.bottom_bar.button_events()
         
         pygame.quit()
         

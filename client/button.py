@@ -17,7 +17,7 @@ class Button:
         pygame.draw.rect(win, self.border_color, (self.x, self.y, self.width, self.height), 0)
         pygame.draw.rect(win, self.color, (self.x + self.BORDER_WIDTH, self.y+ self.BORDER_WIDTH, self.width - self.BORDER_WIDTH*2, self.height -self.BORDER_WIDTH*2), 0)
     
-    def click(self, x,y):
+    def click(self, x, y):
         """if user clicked on button
 
         Args:
