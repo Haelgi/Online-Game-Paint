@@ -51,7 +51,7 @@ class Board:
         row = int((x - self.x)/8)
         col = int((y - self.y)/8)
 
-        if 0 <= row <= self.ROWS and 0 <= col <= self.COLS:
+        if 0 <= row < self.ROWS and 0 <= col < self.COLS:
             return row, col
 
         return None
@@ -59,7 +59,7 @@ class Board:
     def update(self, x, y, color, thickness=3):
         neighs = [(x,y)] + self.get_neighbour(x,y)
         for x,y in neighs:
-            if 0 <= x <= self.COLS and 0 <= y <= self.ROWS:
+            if 0 <= x < self.COLS and 0 <= y < self.ROWS:
                 self.board[y][x] = color
 
     def get_neighbour(self,x,y):
