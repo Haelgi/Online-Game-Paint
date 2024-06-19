@@ -1,6 +1,3 @@
-"""
-Represents the leaderboard object for the client side of the game.
-"""
 import pygame
 
 
@@ -13,7 +10,7 @@ class Leaderboard(object):
         self.players = []
         self.name_font = pygame.font.SysFont("comicsans", 25,bold=True)
         self.score_font = pygame.font.SysFont("comicsans", 20)
-        self.rank_font = pygame.font.SysFont("comicsans", 30)
+        self.rank_font = pygame.font.SysFont("comicsans", 60)
         self.BORDER_THICKNESS = 5
 
     def draw(self, win):

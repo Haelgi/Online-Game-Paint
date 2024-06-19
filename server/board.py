@@ -1,9 +1,4 @@
-"""
-Stores the state of the drawing board.
-"""
-
-
-class Board:
+class Board(object):
     ROWS = COLS = 90
 
     def __init__(self):

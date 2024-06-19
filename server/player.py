@@ -1,10 +1,7 @@
-"""
-Represents a player object on the server side
-"""
 from game import Game
 
 
-class Player:
+class Player(object):
     def __init__(self, ip, name):
         """
         init the player object
@@ -67,4 +64,3 @@ class Player:
         :return: int
         """
         return self.score
-    

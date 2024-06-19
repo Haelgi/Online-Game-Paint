@@ -1,5 +1,5 @@
 import pygame
-from button import Button, TextBtn
+from button import Button, TextButton
 from board import Board
 from top_bar import TopBar
 from leadboard import Leaderboard
@@ -32,7 +32,7 @@ class Game:
         self.top_bar = TopBar(10,10,1280,100)
         self.top_bar.change_round(1)
         self.players = []
-        self.skip_button = TextBtn(85, 830, 125, 60, (255,255,0), "Skip")
+        self.skip_button = TextButton(85, 830, 125, 60, (255,255,0), "Skip")
         self.bottom_bar = BottomBar(305,880,self)
         self.chat = Chat(1050, 125)
         self.draw_color = (0,0,0)

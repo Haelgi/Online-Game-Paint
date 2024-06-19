@@ -1,6 +1,3 @@
-"""
-Represents the chat for the game.
-"""
 import pygame
 
 class Chat:

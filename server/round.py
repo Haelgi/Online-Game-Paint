@@ -1,13 +1,9 @@
-"""
-Represents a round of the game, storing things like
-word, time, skips, drawing player and more.
-"""
 import time as t
 from _thread import *
 from chat import Chat
 
 
-class Round:
+class Round(object):
     def __init__(self, word, player_drawing, game):
         """
         init object

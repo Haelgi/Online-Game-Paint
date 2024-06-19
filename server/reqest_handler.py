@@ -1,8 +1,3 @@
-"""
-MAIN THREAD
-Handles all of the connections, creating new games and
-requests from the client(s).
-"""
 import socket
 import threading
 from player import Player
@@ -10,8 +5,8 @@ from game import Game
 import json
 
 
-class Server:
-    PLAYERS = 1
+class Server(object):
+    PLAYERS = 4
 
     def __init__(self):
         self.connection_queue = []
@@ -142,7 +137,7 @@ class Server:
             conn.close()
 
     def connection_thread(self):
-        server = "192.168.1.104"
+        server = ""
         port = 5555
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -166,4 +161,3 @@ if __name__ == "__main__":
     s = Server()
     thread = threading.Thread(target=s.connection_thread)
     thread.start()
-    thread.join()

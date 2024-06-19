@@ -1,13 +1,9 @@
-"""
-Handles operations related to game and connections
-between, player, board, chat and round
-"""
 from board import Board
 from round import Round
 import random
 
 
-class Game:
+class Game(object):
 
     def __init__(self, id, players):
         """
@@ -84,7 +80,6 @@ class Game:
         """
         if self.round:
             new_round = self.round.skip(player)
-            self.round.chat.update_chat(f'Player has voutes to skip ({self.round.skips}/{len(self.players)-2})')
             if new_round:
                 self.round.chat.update_chat(f"Round has been skipped.")
                 self.round_ended()
