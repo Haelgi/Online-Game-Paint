@@ -137,7 +137,7 @@ class Server(object):
             conn.close()
 
     def connection_thread(self):
-        server = ""
+        server = "192.168.1.104"
         port = 5555
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -161,3 +161,4 @@ if __name__ == "__main__":
     s = Server()
     thread = threading.Thread(target=s.connection_thread)
     thread.start()
+    thread.join()
