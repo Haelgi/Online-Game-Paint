@@ -6,11 +6,40 @@ import json
 
 
 class Server(object):
-    PLAYERS = 4
+    PLAYERS = 1
 
     def __init__(self):
         self.connection_queue = []
         self.game_id = 0
+
+
+    def connection_thread(self):
+        """create new server connection for listening to one incoming connection
+        """
+
+        server = "192.168.1.104"
+        port = 5555
+
+        # create socet (IPv4, TCP)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        try:
+            # binding a socket to an address and port
+            s.bind((server, port))
+        except socket.error as e:
+            str(e)
+
+        # Listening to one incoming connection
+        s.listen(1)
+        print("Waiting for a connection, Server Started")
+
+        while True:
+            """processing incoming connections in an infinite loop in a new thread
+            """
+            conn, addr = s.accept()
+            print("[CONNECT] New connection!")
+
+            self.authentication(conn, addr)
 
     def player_thread(self, conn, player):
         """
@@ -136,29 +165,17 @@ class Server(object):
             print("[EXCEPTION]", e)
             conn.close()
 
-    def connection_thread(self):
-        server = "192.168.1.104"
-        port = 5555
-
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        try:
-            s.bind((server, port))
-        except socket.error as e:
-            str(e)
-
-        s.listen(1)
-        print("Waiting for a connection, Server Started")
-
-        while True:
-            conn, addr = s.accept()
-            print("[CONNECT] New connection!")
-
-            self.authentication(conn, addr)
 
 
 if __name__ == "__main__":
+    # creatre object
     s = Server()
+    
+    # create new thread and add what will do (class metod)
     thread = threading.Thread(target=s.connection_thread)
+    
+    # start new thread and started execution  (class metod)
     thread.start()
+    
+    # blocking the main thread until the new thread finishes executing 
     thread.join()
