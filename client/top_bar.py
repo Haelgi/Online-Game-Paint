@@ -1,6 +1,5 @@
 import pygame
 
-
 class TopBar(object):
     def __init__(self, x, y, width, height):
         self.x = x

@@ -53,7 +53,6 @@ class Game(object):
         :raises: Exception()
         """
 
-        # todo check this
         if player in self.players:
             self.players.remove(player)
             self.round.player_left(player)
@@ -123,7 +122,7 @@ class Game(object):
         gives a word that has not yet been used
         :return: str
         """
-        with open("words.txt", "r") as f:
+        with open("server/words.txt", "r", encoding="utf-8") as f:
             words = []
 
             for line in f:
@@ -132,6 +131,7 @@ class Game(object):
                     words.append(wrd)
 
         wrd = random.choice(words)
+        print(wrd)
         self.words_used.add(wrd)
 
         return wrd 
