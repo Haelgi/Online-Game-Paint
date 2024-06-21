@@ -2,9 +2,7 @@ class Board(object):
     ROWS = COLS = 90
 
     def __init__(self):
-        """
-        init the board by creating empty board (all white pixels)
-        """
+
         self.data = self._create_empty_board()
 
     def update(self, x, y, color):
@@ -21,9 +19,9 @@ class Board(object):
                 self.data[y][x] = color
 
     def get_neighbour(self,x,y):
-        return [ (x-1, y-1), (x, y-1), (x+1, y-1),
-                 (x-1, y), (x+1, y),
-                 (x-1, y+1), (x, y+1), (x+1, y+1)]
+        return [ (x-1, y-1), (x, y-1),
+                 (x-1, y), (x, y), 
+                 (x-1, y+1), (x, y+1),]
 
     def clear(self):
         """
