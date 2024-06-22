@@ -6,17 +6,16 @@ import json
 
 
 class Server(object):
-    PLAYERS = 1
+    PLAYERS = 2
 
     def __init__(self):
-        self.connection_queue = []
+        self.connection_queue = [] # list of queue with obj of player 
         self.game_id = 0
 
 
-    def connection_thread(self):
-        """create new server connection for listening to one incoming connection
+    def create_new_connection_thread(self):
+        """create new connection for listening to one incoming connection
         """
-
         server = "192.168.1.104"
         port = 5555
 
@@ -34,41 +33,95 @@ class Server(object):
         print("Waiting for a connection, Server Started")
 
         while True:
-            """processing incoming connections in an infinite loop in a new thread
+            """handle incoming connections in an infinite loop in a new thread
             """
-            conn, addr = s.accept()
+            conn, addr = s.accept() 
             print("[CONNECT] New connection!")
 
-            self.authentication(conn, addr)
+            self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
+
+
+    def authentication(self, conn_socket, addr):
+        """authentication user name, 
+            add user in queue, 
+            crete thread for interactions with user
+
+        Args:
+            conn (obj): socket for server and new user <socket.socket fd=452, family=2, type=1, proto=0, laddr=('192.168.1.104', 5555), raddr=('192.168.1.104', 53538)>
+            addr (tuple): ip and port new user ('192.168.1.104', 53538)
+
+        Raises:
+            Exception: if there is any error, close connection
+        """
+        try:
+            data = conn_socket.recv(1024) # получаем данные с сокета
+            name = str(data.decode()) # декодируем с байтов в строку
+
+            if not name: # проверка если нет данных 
+                raise Exception("No name received")
+
+            conn_socket.sendall("1".encode()) # если данные есть кодирует строку "1" байты и отправляем на сервек как подтверждение
+
+            player = Player(addr, name) # создаем на сервере игрока с адресом и  именем полученным от пользователя
+            
+            self.handle_queue(player) # работа с очередью и создание новой игры
+
+            thread = threading.Thread(target=self.player_thread, args=(conn_socket, player)) # создаем новый поток для каздого игкрока (передаем в поток ыщслуе и обьект игрока)
+            thread.start() # запуска ем новый поток
+        except Exception as e:
+            print("[EXCEPTION]", e)
+            conn_socket.close()
+
+    def handle_queue(self, player):
+        """add obj player in queu list,
+            create new game if queu reached the expected quantity
+
+        Args:
+            player (obj): new player with unique name and addr
+        """
+        self.connection_queue.append(player) # добавляем обьект игрока в список очереди
+
+        if len(self.connection_queue) >= self.PLAYERS:  # проверяем, если очередь игроков достигла ожидаемое количество 
+            game = Game(self.game_id, self.connection_queue[:]) # создаем обьект игры (передаем копию списка игроков)
+
+            for p in game.players: # для каждого игрока в созданной игре передаем обьект текущей игры
+                p.set_game(game)
+            
+            print(f"[GAME] Game {self.game_id} started...")
+
+            self.game_id += 1  # увеличиваем счетчик игр на один
+            self.connection_queue = [] # очищаем очередь игроков
 
     def player_thread(self, conn, player):
+        """handling interaction between server and player   
+
+        Args:
+            conn (obj): connection socket for one player
+            player (obj): one player object
         """
-        handles in game communication between clients
-        :param conn: connection object
-        :param ip: str
-        :param name: str
-        :return: None
-        """
-        while True:
+        while True: # цикл потока для одного игрока
             try:
-                # Receive request
+                # получение и декодирования данных, если данных нет завершить цикл
                 try:
                     data = conn.recv(1024)
                     data = json.loads(data.decode())
                 except Exception as e:
                     break
 
-                keys = [int(key) for key in data.keys()]
-                send_msg = {key:[] for key in keys}
+
+                # переводим ключи значений в словаре из строк в число
+                keys = [int(key) for key in data.keys()] # список всех ключей
+                send_msg = {key:[] for key in keys} # словарь из ключей с пустім списком
+                
                 last_board = None
 
-                for key in keys:
+                for key in keys: # проходимся по списку ключей
                     if key == -1:  # get game, returns a list of players
                         if player.game:
-                            send = {player.get_name():player.get_score() for player in player.game.players}
-                            send_msg[-1] = send
+                            send = {player.get_name():player.get_score() for player in player.game.players} # создаем словарь списка игроков с количеством очков для каждого
+                            send_msg[-1] = send # закидываем словарь в словарь для ответа
                         else:
-                            send_msg[-1] = []
+                            send_msg[-1] = [] # если у игрока не назначена игра, шлем пустой список
 
                     if player.game:
                         if key == 0:  # guess
@@ -85,7 +138,6 @@ class Server(object):
                             if last_board != brd:
                                 last_board = brd
                                 send_msg[3] = brd
-
                         elif key == 4:  # get score
                             scores = player.game.get_player_scores()
                             send_msg[4] = scores
@@ -110,61 +162,22 @@ class Server(object):
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
 
-                send_msg = json.dumps(send_msg)
-                conn.sendall(send_msg.encode() + ".".encode())
+                send_msg = json.dumps(send_msg) # шифруем данные для отправки
+                conn.sendall(send_msg.encode() + ".".encode()) # отправляем данные по сокету игрока
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)
                 break
-
+        
+        # если цикл прервался но у игрока есть активная игра , вызываем метод отключения
         if player.game:
             player.game.player_disconnected(player)
 
+        # если цикл прервался но игрок есть в очереди на игру , удаляемся из списка
         if player in self.connection_queue:
             self.connection_queue.remove(player)
 
         print(F"[DISCONNECT] {player.name} DISCONNECTED")
-        conn.close()
-
-    def handle_queue(self, player):
-        """
-        adds player to queue and creates new game if enough players
-        :param player: Player
-        :return: None
-        """
-        self.connection_queue.append(player)
-
-        if len(self.connection_queue) >= self.PLAYERS:
-            game = Game(self.game_id, self.connection_queue[:])
-
-            for p in game.players:
-                p.set_game(game)
-
-            self.game_id += 1
-            self.connection_queue = []
-            print(f"[GAME] Game {self.game_id - 1} started...")
-
-    def authentication(self, conn, addr):
-        """
-        authentication here
-        :param ip: str
-        :return: None
-        """
-        try:
-            data = conn.recv(1024)
-            name = str(data.decode())
-            if not name:
-                raise Exception("No name received")
-
-            conn.sendall("1".encode())
-
-            player = Player(addr, name)
-            self.handle_queue(player)
-            thread = threading.Thread(target=self.player_thread, args=(conn, player))
-            thread.start()
-        except Exception as e:
-            print("[EXCEPTION]", e)
-            conn.close()
-
+        conn.close() # закрываем сокет
 
 
 if __name__ == "__main__":
@@ -172,7 +185,7 @@ if __name__ == "__main__":
     s = Server()
     
     # create new thread and add what will do (class metod)
-    thread = threading.Thread(target=s.connection_thread)
+    thread = threading.Thread(target=s.create_new_connection_thread)
     
     # start new thread and started execution  (class metod)
     thread.start()
