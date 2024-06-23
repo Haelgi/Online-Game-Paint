@@ -60,7 +60,7 @@ class Server(object):
             if not name: # проверка если нет данных 
                 raise Exception("No name received")
 
-            conn_socket.sendall("1".encode()) # если данные есть кодирует строку "1" байты и отправляем на сервек как подтверждение
+            conn_socket.sendall("1".encode()) # если данные есть кодирует строку "1" байты и отправляем клиенту как подтверждение
 
             player = Player(addr, name) # создаем на сервере игрока с адресом и  именем полученным от пользователя
             
