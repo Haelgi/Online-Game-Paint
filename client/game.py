@@ -130,3 +130,4 @@ class Game:
                             self.chat.type(key_name)
 
         pygame.quit()
+

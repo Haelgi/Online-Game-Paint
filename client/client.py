@@ -38,7 +38,7 @@ class MainMenu:
         run = True
         clock = pygame.time.Clock()
         while run:
-            clock.tick(30)
+            clock.tick(10)
             self.draw()
             if self.waiting:
                 response = self.n.send({-1:[]})
