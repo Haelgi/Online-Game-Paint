@@ -4,8 +4,8 @@ class Chat:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.WIDTH = 225
-        self.HEIGHT = 800
+        self.WIDTH = 210
+        self.HEIGHT = 700
         self.BORDER_THICKNESS = 5
         self.content = []
         self.typing = ""

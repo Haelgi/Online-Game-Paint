@@ -8,29 +8,29 @@ class MainMenu:
     BG = (255,255,255)
 
     def __init__(self):
-        self.WIDTH = 1300
-        self.HEIGHT = 1000
+        self.WIDTH = 1000
+        self.HEIGHT = 800
         self.win = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
         self.name = ""
         self.waiting = False
-        self.name_font = pygame.font.SysFont("comicsans", 80)
-        self.title_font = pygame.font.SysFont("comicsans", 120)
-        self.enter_font = pygame.font.SysFont("comicsans", 60)
+        self.name_font = pygame.font.SysFont("comicsans", 60)
+        self.title_font = pygame.font.SysFont("comicsans", 100)
+        self.enter_font = pygame.font.SysFont("comicsans", 30)
 
     def draw(self):
         self.win.fill(self.BG)
         title = self.title_font.render("Pictonary!", 1, (0,0,0))
         self.win.blit(title, (self.WIDTH/2 - title.get_width()/2, 50))
 
-        name = self.name_font.render("Type a Name: " + self.name, 1, (0,0,0))
+        name = self.name_font.render("Введіть ім'я: " + self.name, 1, (0,0,0))
         self.win.blit(name, (100, 400))
 
         if self.waiting:
-            enter = self.enter_font.render("In Queue...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - title.get_width() / 2, 800))
+            enter = self.enter_font.render("В черзі...", 1, (0, 0, 0))
+            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 600))
         else:
-            enter = self.enter_font.render("Press enter to join a game...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - title.get_width() / 2, 800))
+            enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
+            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))
 
         pygame.display.update()
 
@@ -62,21 +62,13 @@ class MainMenu:
                         if len(self.name) > 1:
                             self.waiting = True
                             self.n = Network(self.name)
+                    elif event.key == pygame.K_BACKSPACE:
+                        self.name = self.name[:-1]
                     else:
-                        # gets the key name
-                        key_name = pygame.key.name(event.key)
-
-                        # converts to uppercase the key name
-                        key_name = key_name.lower()
-                        self.type(key_name)
+                        self.type(event.unicode)
 
     def type(self, char):
-        if char == "backspace":
-            if len(self.name) > 0:
-                self.name = self.name[:-1]
-        elif char == "space":
-            self.name += " "
-        elif len(char) == 1:
+        if len(char) == 1:
             self.name += char
 
         if len(self.name) >= 20:

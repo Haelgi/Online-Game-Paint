@@ -27,14 +27,14 @@ class Game:
         pygame.font.init()
         self.connection = connection
         self.win = win
-        self.leaderboard = Leaderboard(50,125)
-        self.board = Board(305,125)
-        self.top_bar = TopBar(10,10,1280,100)
+        self.top_bar = TopBar(10,10,980,70)
+        self.leaderboard = Leaderboard(10,85)
+        self.board = Board(220,90)
         self.top_bar.change_round(1)
+        self.chat = Chat(780, 85)
         self.players = []
-        self.skip_button = TextButton(85, 830, 125, 60, (255,255,0), "Skip")
-        self.bottom_bar = BottomBar(305,880,self)
-        self.chat = Chat(1050, 125)
+        self.skip_button = TextButton(10, 700, 200, 60, (255,255,255), "Пропустити")
+        self.bottom_bar = BottomBar(215,700,self)
         self.draw_color = (0,0,0)
         self.drawing = False
 
@@ -125,10 +125,8 @@ class Game:
                             self.chat.typing = ""
                         else:
                             # gets the key name
-                            key_name = pygame.key.name(event.key)
-
-                            # converts to uppercase the key name
-                            key_name = key_name.lower()
+                            key_name = event.unicode
+                           
                             self.chat.type(key_name)
 
         pygame.quit()

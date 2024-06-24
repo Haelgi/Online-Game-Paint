@@ -6,11 +6,13 @@ import random
 class Game(object):
 
     def __init__(self, id, players):
+        """init game and start round
+
+        Args:
+            id (int): id namber of created game 
+            players (list): list of obj players [P(1), P(2), P(3)]
         """
-        init the game! once player threshold is met
-        :param id: int
-        :param players: Player[]
-        """
+
         self.id = id
         self.players = players
         self.words_used = set()
@@ -21,9 +23,7 @@ class Game(object):
         self.start_new_round()
 
     def start_new_round(self):
-        """
-        Starts a new round with a new word
-        :return: None
+        """Starts a new round with a new word
         """
         try:
             self.round = Round(self.get_word(), self.players[self.player_draw_ind], self)

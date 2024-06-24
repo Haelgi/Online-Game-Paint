@@ -6,11 +6,11 @@ class Leaderboard(object):
         self.x = x
         self.y = y
         self.WIDTH = 200
-        self.HEIGHT_ENTRY = 80
+        self.HEIGHT_ENTRY = 60
         self.players = []
-        self.name_font = pygame.font.SysFont("comicsans", 25,bold=True)
+        self.name_font = pygame.font.SysFont("comicsans", 20, bold=True)
         self.score_font = pygame.font.SysFont("comicsans", 20)
-        self.rank_font = pygame.font.SysFont("comicsans", 60)
+        self.rank_font = pygame.font.SysFont("comicsans", 25)
         self.BORDER_THICKNESS = 5
 
     def draw(self, win):
@@ -29,10 +29,10 @@ class Leaderboard(object):
             win.blit(rank, (self.x + 10, self.y + i*self.HEIGHT_ENTRY + self.HEIGHT_ENTRY/2 - rank.get_height()/2))
 
             name = self.name_font.render(score[0], 1, (0,0,0))
-            win.blit(name, (self.x - name.get_width()/2 + self.WIDTH/2, self.y + i*self.HEIGHT_ENTRY + 20))
+            win.blit(name, (self.x - name.get_width()/2 + self.WIDTH/2 - 10, self.y + i*self.HEIGHT_ENTRY + 5))
 
-            score = self.score_font.render("Score: " + str(score[1]), 1, (0, 0, 0))
-            win.blit(score, (self.x - name.get_width() / 2 + self.WIDTH / 2, self.y + i * self.HEIGHT_ENTRY + 40))
+            score = self.score_font.render("Рахунок: " + str(score[1]), 1, (0, 0, 0))
+            win.blit(score, (self.x - name.get_width() / 2 + self.WIDTH/2 - 10, self.y + i * self.HEIGHT_ENTRY +25))
 
         pygame.draw.rect(win, (0, 0, 0), (self.x, self.y, self.WIDTH, self.HEIGHT_ENTRY * len(scores)),
                          self.BORDER_THICKNESS)

@@ -18,12 +18,12 @@ class BottomBar:
     def __init__(self, x, y, game):
         self.x = x
         self.y = y
-        self.WIDTH = 720
+        self.WIDTH = 560
         self.HEIGHT = 100
         self.BORDER_THICKNESS = 5
         self.game = game
-        self.clear_button = TextButton(self.x + self.WIDTH - 150, self.y + 25, 100, 50, (128,128,128), "Clear")
-        self.eraser_button = TextButton(self.x + self.WIDTH - 300, self.y + 25, 100, 50, (128,128,128), "Eraser")
+        self.clear_button = TextButton(self.x + self.WIDTH - 180, self.y + 25, 150, 50, (128,128,128), "Очистити")
+        self.eraser_button = TextButton(self.x + self.WIDTH - 320, self.y + 25, 130, 50, (128,128,128), "Ластик")
         self.color_buttons = [Button(self.x + 20, self.y + 5, 30,30, self.COLORS[0]),
                               Button(self.x + 50, self.y + 5, 30, 30, self.COLORS[1]),
                               Button(self.x + 80, self.y + 5, 30, 30, self.COLORS[2]),

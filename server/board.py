@@ -1,9 +1,16 @@
 class Board(object):
-    ROWS = COLS = 90
+    ROWS = 120
+    COLS = 110
 
     def __init__(self):
-
         self.data = self._create_empty_board()
+
+    def _create_empty_board(self):
+        """
+        creates an empty board (all white)
+        :return: None
+        """
+        return [[0 for _ in range(self.COLS)] for _ in range(self.ROWS)]
 
     def update(self, x, y, color):
         """
@@ -29,14 +36,14 @@ class Board(object):
         :return: None
         """
         self.data = self._create_empty_board()
-
-    def _create_empty_board(self):
+    
+    def get_board(self):
         """
-        creates an empty board (all white)
-        :return: None
+        gets the data of the board
+        :return: (int,int,int)[]
         """
-        return [[0 for _ in range(self.COLS)] for _ in range(self.ROWS)]
-
+        return self.data
+    
     def fill(self, x, y):
         """
         fills in a specific shape or area using recursion
@@ -45,10 +52,3 @@ class Board(object):
         :return: None
         """
         pass
-
-    def get_board(self):
-        """
-        gets the data of the board
-        :return: (int,int,int)[]
-        """
-        return self.data

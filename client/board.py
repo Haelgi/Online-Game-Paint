@@ -2,7 +2,9 @@ import pygame
 
 
 class Board(object):
-    ROWS = COLS = 90
+    ROWS = 120
+    COLS = 110
+    scale = 5
     COLORS = {
         0: (255,255,255),
         1: (0,0,0),
@@ -18,8 +20,8 @@ class Board(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.WIDTH = 720
-        self.HEIGHT = 720
+        self.WIDTH = self.COLS*self.scale
+        self.HEIGHT = self.ROWS*self.scale
         self.compressed_board = []
         self.board = self.create_board()
         self.BORDER_THICKNESS = 5
@@ -33,10 +35,10 @@ class Board(object):
                 self.board[y][x] = self.COLORS[col]
 
     def draw(self, win):
-        pygame.draw.rect(win, (0,0,0), (self.x - self.BORDER_THICKNESS/2, self.y-self.BORDER_THICKNESS/2, self.WIDTH + self.BORDER_THICKNESS, self.HEIGHT + self.BORDER_THICKNESS), self.BORDER_THICKNESS)
+        pygame.draw.rect(win, (0,0,0), (self.x - self.BORDER_THICKNESS, self.y-self.BORDER_THICKNESS, self.WIDTH + self.BORDER_THICKNESS*2, self.HEIGHT + self.BORDER_THICKNESS*2), self.BORDER_THICKNESS)
         for y, _ in enumerate(self.board):
             for x, col in enumerate(self.board[y]):
-                pygame.draw.rect(win, col, (self.x + x*8, self.y + y*8, 8, 8), 0)
+                pygame.draw.rect(win, col, (self.x + x*self.scale, self.y + y*self.scale, self.scale, self.scale), 0)
 
     def click(self,x,y):
         """
@@ -46,24 +48,24 @@ class Board(object):
         :param y: float
         :return: (int, int) or None
         """
-        row = int((x - self.x)/8)
-        col = int((y - self.y)/8)
+        row = int((x - self.x)/self.scale)
+        col = int((y - self.y)/self.scale)
 
-        if 0 <= row <= self.ROWS and 0 <= col <= self.COLS:
+        if 0 <= row < self.ROWS and 0 <= col < self.COLS-1:
             return row, col
 
         return None
 
-    def update(self, x, y, color, thickness=3):
+    def update(self, x, y, color):
         neighs = [(x,y)] + self.get_neighbour(x,y)
         for x,y in neighs:
-            if 0 <= x <= self.COLS and 0 <= y <= self.ROWS:
+            if 0 <= x < self.COLS and 0 <= y < self.ROWS:
                 self.board[y][x] = color
 
     def get_neighbour(self,x,y):
-        return [ (x-1, y-1), (x, y-1), (x+1, y-1),
-                 (x-1, y), (x+1, y),
-                 (x-1, y+1), (x, y+1), (x+1, y+1)]
+        return [ (x-1, y-1), (x, y-1),
+                 (x-1, y), (x, y), 
+                 (x-1, y+1), (x, y+1),]
 
     def clear(self):
         self.board = self.create_board()
