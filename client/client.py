@@ -2,6 +2,7 @@ import pygame
 from network import Network
 from game import Game
 from player import Player
+from button import Button, TextButton
 
 
 class MainMenu:
@@ -16,32 +17,22 @@ class MainMenu:
         self.name_font = pygame.font.SysFont("comicsans", 60)
         self.title_font = pygame.font.SysFont("comicsans", 100)
         self.enter_font = pygame.font.SysFont("comicsans", 30)
-
-    def draw(self):
-        self.win.fill(self.BG)
-        title = self.title_font.render("Pictonary!", 1, (0,0,0))
-        self.win.blit(title, (self.WIDTH/2 - title.get_width()/2, 50))
-
-        name = self.name_font.render("Введіть ім'я: " + self.name, 1, (0,0,0))
-        self.win.blit(name, (100, 400))
-
-        if self.waiting:
-            enter = self.enter_font.render("В черзі...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 600))
-        else:
-            enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))
-
-        pygame.display.update()
-
+        self.player_list=''
+        self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (255,255,255), "Розпочати")
+    
     def run(self):
         run = True
         clock = pygame.time.Clock()
+
         while run:
-            clock.tick(10)
+            clock.tick(60)
             self.draw()
+
             if self.waiting:
                 response = self.n.send({-1:[]})
+                get_player = self.n.send({-2:[]})
+                self.player_list = ', '.join(get_player)
+   
                 if response:
                     run = False
                     g = Game(self.win, self.n)
@@ -67,13 +58,38 @@ class MainMenu:
                     else:
                         self.type(event.unicode)
 
+    def draw(self):
+
+        self.win.fill(self.BG) 
+        title = self.title_font.render("Pictonary!", 1, (0,0,0)) 
+        self.win.blit(title, (self.WIDTH/2 - title.get_width()/2, 50)) 
+
+        name = self.name_font.render("Введіть ім'я: " + self.name, 1, (0,0,0))
+        self.win.blit(name, (100, 400))
+
+        if self.waiting:
+            self.win.fill(self.BG) 
+
+            enter = self.enter_font.render("В черзі...", 1, (0, 0, 0))
+            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 200))
+
+            enter = self.enter_font.render(self.player_list, 1, (0, 0, 0))
+            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 320))
+
+            self.start_game_btn.draw(self.win)
+        else:
+            enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
+            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))
+            
+        pygame.display.update()
+
+
     def type(self, char):
         if len(char) == 1:
             self.name += char
 
         if len(self.name) >= 20:
             self.name = self.name[:20]
-
 
 if __name__ == "__main__":
     pygame.font.init()

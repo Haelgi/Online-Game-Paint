@@ -6,10 +6,12 @@ import json
 
 
 class Server(object):
-    PLAYERS = 2
+    PLAYERS = 3
+    player_queue = [] # list of queue with obj of player
 
     def __init__(self):
         self.connection_queue = [] # list of queue with obj of player 
+        # player_queue = [] # list of queue with obj of player
         self.game_id = 0
 
 
@@ -39,6 +41,7 @@ class Server(object):
             print("[CONNECT] New connection!")
 
             self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
+            print(self.player_queue)
 
 
     def authentication(self, conn_socket, addr):
@@ -56,6 +59,7 @@ class Server(object):
         try:
             data = conn_socket.recv(1024) # получаем данные с сокета
             name = str(data.decode()) # декодируем с байтов в строку
+            self.player_queue.append(name)
 
             if not name: # проверка если нет данных 
                 raise Exception("No name received")
@@ -65,6 +69,7 @@ class Server(object):
             player = Player(addr, name) # создаем на сервере игрока с адресом и  именем полученным от пользователя
             
             self.handle_queue(player) # работа с очередью и создание новой игры
+            
 
             thread = threading.Thread(target=self.player_thread, args=(conn_socket, player)) # создаем новый поток для каздого игкрока (передаем в поток ыщслуе и обьект игрока)
             thread.start() # запуска ем новый поток
@@ -91,6 +96,7 @@ class Server(object):
 
             self.game_id += 1  # увеличиваем счетчик игр на один
             self.connection_queue = [] # очищаем очередь игроков
+            self.player_queue = [] # очищаем очередь игроков
 
     def player_thread(self, conn, player):
         """handling interaction between server and player   
@@ -116,12 +122,16 @@ class Server(object):
                 last_board = None
 
                 for key in keys: # проходимся по списку ключей
+                    if key == -2:  # get game, returns a list of players
+                        send_msg[-2] = self.player_queue
+
                     if key == -1:  # get game, returns a list of players
                         if player.game:
                             send = {player.get_name():player.get_score() for player in player.game.players} # создаем словарь списка игроков с количеством очков для каждого
                             send_msg[-1] = send # закидываем словарь в словарь для ответа
                         else:
                             send_msg[-1] = [] # если у игрока не назначена игра, шлем пустой список
+
 
                     if player.game:
                         if key == 0:  # guess
@@ -161,7 +171,7 @@ class Server(object):
                             player.game.board.clear()
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
-
+                        
                 send_msg = json.dumps(send_msg) # шифруем данные для отправки
                 conn.sendall(send_msg.encode() + ".".encode()) # отправляем данные по сокету игрока
             except Exception as e:
@@ -181,14 +191,7 @@ class Server(object):
 
 
 if __name__ == "__main__":
-    # creatre object
     s = Server()
-    
-    # create new thread and add what will do (class metod)
     thread = threading.Thread(target=s.create_new_connection_thread)
-    
-    # start new thread and started execution  (class metod)
     thread.start()
-    
-    # blocking the main thread until the new thread finishes executing 
     thread.join()
