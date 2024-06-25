@@ -19,6 +19,8 @@ class MainMenu:
         self.enter_font = pygame.font.SysFont("comicsans", 30)
         self.player_list=''
         self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (255,255,255), "Розпочати")
+        self.first_player = False
+        
     
     def run(self):
         run = True
@@ -31,6 +33,8 @@ class MainMenu:
             if self.waiting:
                 response = self.n.send({-1:[]})
                 get_player = self.n.send({-2:[]})
+                if self.name == get_player[0]:   
+                    self.first_player = True 
                 self.player_list = ', '.join(get_player)
    
                 if response:
@@ -75,8 +79,12 @@ class MainMenu:
 
             enter = self.enter_font.render(self.player_list, 1, (0, 0, 0))
             self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 320))
+            if self.first_player:
+                self.start_game_btn.draw(self.win)
+                mouse = pygame.mouse.get_pos()
 
-            self.start_game_btn.draw(self.win)
+                if self.start_game_btn.click(*mouse) and pygame.mouse.get_pressed()[0]:
+                    self.n.send({-3:[]}) 
         else:
             enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
             self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))
@@ -90,6 +98,9 @@ class MainMenu:
 
         if len(self.name) >= 20:
             self.name = self.name[:20]
+
+        
+
 
 if __name__ == "__main__":
     pygame.font.init()
