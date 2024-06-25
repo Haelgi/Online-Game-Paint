@@ -186,6 +186,7 @@ class Server(object):
         if player in self.connection_queue:
             self.connection_queue.remove(player)
 
+        self.player_queue.remove(player.name)
         print(F"[DISCONNECT] {player.name} DISCONNECTED")
         conn.close() # закрываем сокет
 
