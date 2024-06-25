@@ -18,7 +18,7 @@ class MainMenu:
         self.title_font = pygame.font.SysFont("comicsans", 100)
         self.enter_font = pygame.font.SysFont("comicsans", 30)
         self.player_list=''
-        self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (255,255,255), "Розпочати")
+        self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (255,255,255), "Готовий!")
         self.first_player = False
         
     
@@ -57,7 +57,7 @@ class MainMenu:
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
-                        if len(self.name) > 1:
+                        if len(self.name) >= 1:
                             self.waiting = True
                             self.n = Network(self.name)
                     elif event.key == pygame.K_BACKSPACE:
@@ -82,12 +82,17 @@ class MainMenu:
 
             enter = self.enter_font.render(self.player_list, 1, (0, 0, 0))
             self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 320))
-            if self.first_player:
-                self.start_game_btn.draw(self.win)
-                mouse = pygame.mouse.get_pos()
 
-                if self.start_game_btn.click(*mouse) and pygame.mouse.get_pressed()[0]:
-                    self.n.send({-3:[]}) 
+            self.start_game_btn.draw(self.win)
+            mouse = pygame.mouse.get_pos()
+
+
+
+            if self.start_game_btn.click(*mouse) and pygame.mouse.get_pressed()[0]:
+                print( '90', self.n.send({-3:[self.name]}))
+                self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (0,0,0), "Готовий!", (255,255,255))
+                
+
         else:
             enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
             self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))

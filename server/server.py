@@ -7,6 +7,8 @@ import json
 
 class Server(object):
     player_queue = [] # list of queue with obj of player
+    player_ready = set() # list of queue with obj of player
+
 
     def __init__(self):
         self.connection_queue = [] # list of queue with obj of player 
@@ -116,8 +118,10 @@ class Server(object):
                 last_board = None
 
                 for key in keys: # start current game
-                    if key == -3:  
-                        self.start_game()
+                    if key == -3:
+                        self.player_ready.add(data['-3'][0])
+                        if 1 < len(self.player_queue) == len(self.player_ready):  
+                            self.start_game()
 
                     if key == -2:  # get game, returns a list of players
                         send_msg[-2] = self.player_queue

@@ -33,9 +33,10 @@ class Button:
 
 
 class TextButton(Button):
-    def __init__(self, x, y, width, height, color, text, border_color=(0,0,0)):
+    def __init__(self, x, y, width, height, color, text, txt_color=(0,0,0), border_color=(0,0,0)):
         super().__init__(x, y, width, height, color, border_color)
         self.text = text
+        self.txt_color = txt_color
         self.text_font = pygame.font.SysFont("comicsans", 30)
 
     def change_font_size(self, size):
@@ -43,7 +44,7 @@ class TextButton(Button):
 
     def draw(self, win):
         super().draw(win)
-        txt = self.text_font.render(self.text, 1, (0,0,0))
+        txt = self.text_font.render(self.text, 1, self.txt_color)
         win.blit(txt, (self.x + self.width/2 - txt.get_width()/2, self.y + self.height/2 - txt.get_height()/2))
 
 
