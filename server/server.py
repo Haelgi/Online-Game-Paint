@@ -6,7 +6,6 @@ import json
 
 
 class Server(object):
-    PLAYERS = 3
     player_queue = [] # list of queue with obj of player
 
     def __init__(self):
@@ -57,22 +56,20 @@ class Server(object):
             Exception: if there is any error, close connection
         """
         try:
-            data = conn_socket.recv(1024) # получаем данные с сокета
-            name = str(data.decode()) # декодируем с байтов в строку
+            data = conn_socket.recv(1024)
+            name = str(data.decode())
             self.player_queue.append(name)
 
-            if not name: # проверка если нет данных 
+            if not name:
                 raise Exception("No name received")
 
-            conn_socket.sendall("1".encode()) # если данные есть кодирует строку "1" байты и отправляем клиенту как подтверждение
+            conn_socket.sendall("1".encode()) 
 
-            player = Player(addr, name) # создаем на сервере игрока с адресом и  именем полученным от пользователя
-            
-            self.handle_queue(player) # работа с очередью и создание новой игры
-            
+            player = Player(addr, name)
+            self.handle_queue(player)    
 
-            thread = threading.Thread(target=self.player_thread, args=(conn_socket, player)) # создаем новый поток для каздого игкрока (передаем в поток ыщслуе и обьект игрока)
-            thread.start() # запуска ем новый поток
+            thread = threading.Thread(target=self.player_thread, args=(conn_socket, player))
+            thread.start()
         except Exception as e:
             print("[EXCEPTION]", e)
             conn_socket.close()
@@ -84,19 +81,19 @@ class Server(object):
         Args:
             player (obj): new player with unique name and addr
         """
-        self.connection_queue.append(player) # добавляем обьект игрока в список очереди
+        self.connection_queue.append(player)
 
-        if len(self.connection_queue) >= self.PLAYERS:  # проверяем, если очередь игроков достигла ожидаемое количество 
-            game = Game(self.game_id, self.connection_queue[:]) # создаем обьект игры (передаем копию списка игроков)
+    def start_game(self):
+            game = Game(self.game_id, self.connection_queue[:])
 
-            for p in game.players: # для каждого игрока в созданной игре передаем обьект текущей игры
+            for p in game.players:
                 p.set_game(game)
             
             print(f"[GAME] Game {self.game_id} started...")
 
-            self.game_id += 1  # увеличиваем счетчик игр на один
-            self.connection_queue = [] # очищаем очередь игроков
-            self.player_queue = [] # очищаем очередь игроков
+            self.game_id += 1
+            self.connection_queue = []
+            self.player_queue = []
 
     def player_thread(self, conn, player):
         """handling interaction between server and player   
@@ -105,23 +102,23 @@ class Server(object):
             conn (obj): connection socket for one player
             player (obj): one player object
         """
-        while True: # цикл потока для одного игрока
+        while True: 
             try:
-                # получение и декодирования данных, если данных нет завершить цикл
                 try:
                     data = conn.recv(1024)
                     data = json.loads(data.decode())
                 except Exception as e:
                     break
 
-
-                # переводим ключи значений в словаре из строк в число
-                keys = [int(key) for key in data.keys()] # список всех ключей
-                send_msg = {key:[] for key in keys} # словарь из ключей с пустім списком
+                keys = [int(key) for key in data.keys()]
+                send_msg = {key:[] for key in keys} 
                 
                 last_board = None
 
-                for key in keys: # проходимся по списку ключей
+                for key in keys: # start current game
+                    if key == -3:  
+                        self.start_game()
+
                     if key == -2:  # get game, returns a list of players
                         send_msg[-2] = self.player_queue
 
@@ -172,8 +169,8 @@ class Server(object):
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
                         
-                send_msg = json.dumps(send_msg) # шифруем данные для отправки
-                conn.sendall(send_msg.encode() + ".".encode()) # отправляем данные по сокету игрока
+                send_msg = json.dumps(send_msg) 
+                conn.sendall(send_msg.encode() + ".".encode())
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)
                 break
@@ -185,8 +182,10 @@ class Server(object):
         # если цикл прервался но игрок есть в очереди на игру , удаляемся из списка
         if player in self.connection_queue:
             self.connection_queue.remove(player)
-
-        self.player_queue.remove(player.name)
+        try:
+            self.player_queue.remove(player.name)
+        except:
+            pass
         print(F"[DISCONNECT] {player.name} DISCONNECTED")
         conn.close() # закрываем сокет
 

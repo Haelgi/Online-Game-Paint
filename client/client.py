@@ -33,8 +33,11 @@ class MainMenu:
             if self.waiting:
                 response = self.n.send({-1:[]})
                 get_player = self.n.send({-2:[]})
-                if self.name == get_player[0]:   
-                    self.first_player = True 
+                try:
+                    if self.name == get_player[0]:   
+                        self.first_player = True 
+                except:
+                    pass
                 self.player_list = ', '.join(get_player)
    
                 if response:
