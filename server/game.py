@@ -37,7 +37,7 @@ class Game(object):
         except Exception as e:
             self.end_game()
 
-    def player_guess(self, player, guess):
+    def player_guess(self, player, guess): ##################################### 1 # передаем в другую функцию 
         """
         Makes the player guess the word
         :param player: Player

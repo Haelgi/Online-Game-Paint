@@ -92,18 +92,12 @@ class Game:
                 self.chat.update_chat(response)
 
                 # get round info
-                self.top_bar.word = self.connection.send({6:[]})
+                self.top_bar.word = self.connection.send({6:[]}) # получаю слово
                 self.top_bar.round = self.connection.send({5:[]})
                 self.drawing = self.connection.send({11:[]})
                 self.top_bar.drawing = self.drawing
                 self.top_bar.max_round = len(self.players)
 
-                # get player updates
-                '''response = self.connection.send({0:[]})
-                self.players = []
-                for player in response:
-                    p = Player(player)
-                    self.add_player(p)'''
             except:
                 run = False
                 break

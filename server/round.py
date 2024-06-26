@@ -63,21 +63,22 @@ class Round(object):
             self.time -= 1
         self.end_round("Time is up")
 
-    def guess(self, player, wrd):
+    def guess(self, player, wrd): ################################### 2 # 
         """
         :returns bool if player got guess correct
         :param player: Player
         :param wrd: str
         :return: bool
         """
-        correct = wrd.lower() == self.word.lower()
-        if correct:
-            self.player_guessed.append(player)
+        print(wrd.lower(), self.word.lower())
+        correct = wrd.lower() == self.word.lower() # сравниваем напечатанное слово с загаданным
+        if correct: # если угадали
+            self.player_guessed.append(player) # в список добавили игрока который угадал
             # TODO implement scoring system here
-            self.chat.update_chat(f"{player.name} has guessed the word.")
-            return True
+            self.chat.update_chat(f"{player.name} has guessed the word.") # в чат на сервере написали, что игрок угадал
+            return True # вернули тру
 
-        self.chat.update_chat(f"{player.name} guessed {wrd}")
+        self.chat.update_chat(f"{player.name}: {wrd}") # если не угадали, просто опубликовали сообщение пользователя
         return False
 
     def player_left(self, player):

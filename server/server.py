@@ -136,7 +136,7 @@ class Server(object):
 
                     if player.game:
                         if key == 0:  # guess
-                            correct = player.game.player_guess(player, data['0'][0])
+                            correct = player.game.player_guess(player, data['0'][0]) ################### 0 # получаем слово от клиента вставляем в фунцию (пользователя, слово)
                             send_msg[0] = correct
                         elif key == 1:
                             skip = player.game.skip(player)

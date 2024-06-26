@@ -89,8 +89,8 @@ class MainMenu:
 
 
             if self.start_game_btn.click(*mouse) and pygame.mouse.get_pressed()[0]:
-                print( '90', self.n.send({-3:[self.name]}))
-                self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (0,0,0), "Готовий!", (255,255,255))
+                self.n.send({-3:[self.name]})
+                self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, 'green', "Готовий!", (255,255,255), 'green')
                 
 
         else:
