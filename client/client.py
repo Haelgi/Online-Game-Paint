@@ -9,6 +9,8 @@ class MainMenu:
     BG = (255,255,255)
 
     def __init__(self):
+        """start main menu and lobby stage
+        """
         self.WIDTH = 1000
         self.HEIGHT = 800
         self.win = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -23,6 +25,8 @@ class MainMenu:
         
     
     def run(self):
+        """master loop main menu
+        """
         run = True
         clock = pygame.time.Clock()
 
