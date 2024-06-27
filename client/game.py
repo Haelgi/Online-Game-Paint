@@ -119,11 +119,12 @@ class Game:
                         if event.key == pygame.K_RETURN:
                             self.connection.send({0:[self.chat.typing]})
                             self.chat.typing = ""
+                        elif event.key == pygame.K_BACKSPACE:
+                            if len( self.chat.typing) > 0:
+                                self.chat.typing =  self.chat.typing[:-1]
                         else:
                             # gets the key name
-                            key_name = event.unicode
-                           
-                            self.chat.type(key_name)
+                            self.chat.type(event.unicode)
 
         pygame.quit()
 
