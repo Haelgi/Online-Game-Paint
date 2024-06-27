@@ -14,7 +14,6 @@ class Chat(object):
         Args:
             msg (txt): 'msg1'
         """
-        # FIXME функция работает, но на ней все стопится
         self.content.append(msg)
 
 

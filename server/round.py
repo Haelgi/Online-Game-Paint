@@ -13,9 +13,11 @@ class Round(object):
         """
         self.word = word
         self.player_drawing = player_drawing
-        self.player_guessed = []
-        self.players_skipped = []
-        self.skips = 0
+        # FIXME guessed
+        # self.player_guessed = []
+        # FIXME skip
+        # self.players_skipped = []
+        # self.skips = 0
         self.time = 75
         self.game = game
         self.player_scores = {player: 0 for player in self.game.players}
@@ -27,14 +29,16 @@ class Round(object):
         Returns true if round skipped threshold met
         :return: bool
         """
-        if player not in self.players_skipped:
-            self.players_skipped.append(player)
-            self.skips += 1
-            self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
-            if self.skips >= len(self.game.players) - 2:
-                return True
+        pass
+        # FIXME skip
+        # if player not in self.players_skipped:
+        #     self.players_skipped.append(player)
+        #     self.skips += 1
+        #     self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
+        #     if self.skips >= len(self.game.players) - 2:
+        #         return True
 
-        return False
+        # return False
 
     def get_scores(self):
         """
@@ -63,22 +67,24 @@ class Round(object):
             self.time -= 1
         self.end_round("Time is up")
 
-    def guess(self, player, wrd): ################################### 2 # 
+    def guess(self, player, wrd):
         """
         :returns bool if player got guess correct
         :param player: Player
         :param wrd: str
         :return: bool
         """
-        correct = wrd.lower() == self.word.lower() # сравниваем напечатанное слово с загаданным
-        if correct: # если угадали
-            self.player_guessed.append(player) # в список добавили игрока который угадал
-            # TODO implement scoring system here
-            self.chat.update_chat(f"{player.name} вгадав слово.")# в чат на сервере написали, что игрок угадал
-            return True # вернули тру
+        
+        # FIXME guess
+        # correct = wrd.lower() == self.word.lower() 
+        # if correct: 
+        #     self.player_guessed.append(player) 
+        #     # TODO implement scoring system here
+        #     self.chat.update_chat(f"{player.name} вгадав слово.")
+        #     return True 
 
-        self.chat.update_chat(f"{player.name}: {wrd}") # если не угадали, просто опубликовали сообщение пользователя
-        return False
+        self.chat.update_chat(f"{player.name}: {wrd}") 
+        # return False
 
     def player_left(self, player):
         """
@@ -86,19 +92,23 @@ class Round(object):
         :param player: Player
         :return: None
         """
-        # might not be able to use player as key in dict
-        if player in self.player_scores:
-            del self.player_scores[player]
+        pass
+        # FIXME player_left
 
-        if player in self.player_guessed:
-            self.player_guessed.remove(player)
+        # if player in self.player_scores:
+        #     del self.player_scores[player]
 
-        if player == self.player_drawing:
-            self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
-            self.end_round("Гравець що малював покинув гру")
+        # if player in self.player_guessed:
+        #     self.player_guessed.remove(player)
+
+        # if player == self.player_drawing:
+        #     self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
+        #     self.end_round("Гравець що малював покинув гру")
 
     def end_round(self, msg):
-        for player in self.game.players:
-            if player in self.player_scores:
-                player.update_score(self.player_scores[player])
-        self.game.round_ended()
+        pass
+        # FIXME player_left
+        # for player in self.game.players:
+        #     if player in self.player_scores:
+        #         player.update_score(self.player_scores[player])
+        # self.game.round_ended()
