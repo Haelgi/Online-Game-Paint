@@ -88,9 +88,7 @@ class Game:
                 self.top_bar.time = response
 
                 # get chat
-                print('client/game 91')
                 response = self.connection.send({2:[]})
-                print('client/game 93' , response)
                 self.chat.update_chat(response)
 
                 # get round info

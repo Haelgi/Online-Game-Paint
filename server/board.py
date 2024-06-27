@@ -43,12 +43,3 @@ class Board(object):
         :return: (int,int,int)[]
         """
         return self.data
-    
-    def fill(self, x, y):
-        """
-        fills in a specific shape or area using recursion
-        :param x: int
-        :param y: int
-        :return: None
-        """
-        pass

@@ -32,7 +32,6 @@ class Chat:
         win.blit(type_chat, (self.x + 10, self.y+self.HEIGHT-type_chat.get_height()-12))
 
     def type(self, char):
-        print(char)
         if char == "backspace":
             if len(self.typing) > 0:
                 self.typing = self.typing[:-1]

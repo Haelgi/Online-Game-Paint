@@ -42,7 +42,6 @@ class Server(object):
             print("[CONNECT] New connection!")
 
             self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
-            print(self.player_queue)
 
 
     def authentication(self, conn_socket, addr):
@@ -174,7 +173,6 @@ class Server(object):
                             send_msg[11] = player.game.round.player_drawing == player
                         
                 send_msg = json.dumps(send_msg)
-                print(send_msg) 
                 conn.sendall(send_msg.encode() + ".".encode())
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)

@@ -131,7 +131,6 @@ class Game(object):
                     words.append(wrd)
 
         wrd = random.choice(words)
-        print(wrd)
         self.words_used.add(wrd)
 
         return wrd 
