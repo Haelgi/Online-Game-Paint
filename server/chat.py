@@ -1,8 +1,12 @@
 class Chat(object):
+    def __init__(self, round_obj):
+        """keeps chat history
 
-    def __init__(self, r):
-        self.content = ['sdfsdf', 'sdfsdfsdf']
-        self.round = r
+        Args:
+            round_obj (obj): expects an object of class round
+        """
+        self.content = []
+        self.round = round_obj
 
     def update_chat(self, msg):
         """add one massage to list content chat
@@ -10,8 +14,9 @@ class Chat(object):
         Args:
             msg (txt): 'msg1'
         """
-        # TODO функция работает, но на ней все стопится
+        # FIXME функция работает, но на ней все стопится
         self.content.append(msg)
+
 
     def get_chat(self):
         """retutne all content in chat
@@ -44,4 +49,3 @@ class Chat(object):
             str: '< Chat obj >'
         """
         return str(self)
-

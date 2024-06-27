@@ -30,7 +30,7 @@ class Round(object):
         if player not in self.players_skipped:
             self.players_skipped.append(player)
             self.skips += 1
-            self.chat.update_chat(f"Player has voted to skip ({self.skips}/{len(self.game.players) -2})")
+            self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
             if self.skips >= len(self.game.players) - 2:
                 return True
 
@@ -70,12 +70,11 @@ class Round(object):
         :param wrd: str
         :return: bool
         """
-        print(wrd.lower(), self.word.lower())
         correct = wrd.lower() == self.word.lower() # сравниваем напечатанное слово с загаданным
         if correct: # если угадали
             self.player_guessed.append(player) # в список добавили игрока который угадал
             # TODO implement scoring system here
-            self.chat.update_chat(f"{player.name} has guessed the word.") # в чат на сервере написали, что игрок угадал
+            self.chat.update_chat(f"{player.name} вгадав слово.")# в чат на сервере написали, что игрок угадал
             return True # вернули тру
 
         self.chat.update_chat(f"{player.name}: {wrd}") # если не угадали, просто опубликовали сообщение пользователя
@@ -95,8 +94,8 @@ class Round(object):
             self.player_guessed.remove(player)
 
         if player == self.player_drawing:
-            self.chat.update_chat("Round has been skipped because the drawer left.")
-            self.end_round("Drawing player leaves")
+            self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
+            self.end_round("Гравець що малював покинув гру")
 
     def end_round(self, msg):
         for player in self.game.players:

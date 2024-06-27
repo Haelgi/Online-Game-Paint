@@ -4,7 +4,6 @@ import random
 
 
 class Game(object):
-
     def __init__(self, id, players):
         """init game and start round
 
@@ -56,7 +55,7 @@ class Game(object):
         if player in self.players:
             self.players.remove(player)
             self.round.player_left(player)
-            self.round.chat.update_chat(f"Player {player.get_name()} disconnected.")
+            self.round.chat.update_chat(f"Гравець {player.get_name()} покинув гру.")
         else:
             raise Exception("Player not in game")
 
@@ -80,7 +79,7 @@ class Game(object):
         if self.round:
             new_round = self.round.skip(player)
             if new_round:
-                self.round.chat.update_chat(f"Round has been skipped.")
+                self.round.chat.update_chat(f"Раунд був пропущенний.")
                 self.round_ended()
                 return True
             return False
@@ -92,9 +91,10 @@ class Game(object):
         If the round ends call thiss
         :return: None
         """
-        self.round.chat.update_chat(f"Round {self.round_count} has ended.")
+        self.round.chat.update_chat(f"Раунд {self.round_count} закінчився.")
         self.start_new_round()
         self.board.clear()
+        
 
     def update_board(self, x, y, color):
         """
