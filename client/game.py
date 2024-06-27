@@ -88,7 +88,9 @@ class Game:
                 self.top_bar.time = response
 
                 # get chat
+                print('client/game 91')
                 response = self.connection.send({2:[]})
+                print('client/game 93' , response)
                 self.chat.update_chat(response)
 
                 # get round info
@@ -99,10 +101,12 @@ class Game:
                 self.top_bar.max_round = len(self.players)
 
             except:
-                run = False
-                break
+                # run = False
+                # break
+                pass
 
             self.draw()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False

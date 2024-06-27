@@ -137,7 +137,7 @@ class Server(object):
                     if player.game:
                         if key == 0:  # guess
                             correct = player.game.player_guess(player, data['0'][0]) ################### 0 # получаем слово от клиента вставляем в фунцию (пользователя, слово)
-                            send_msg[0] = correct
+                            send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
                             skip = player.game.skip(player)
                             send_msg[1] = skip
@@ -173,7 +173,8 @@ class Server(object):
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
                         
-                send_msg = json.dumps(send_msg) 
+                send_msg = json.dumps(send_msg)
+                print(send_msg) 
                 conn.sendall(send_msg.encode() + ".".encode())
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)
