@@ -1,6 +1,6 @@
 import socket
 import json
-import time as t
+import struct
 
 
 class Network:
@@ -23,27 +23,26 @@ class Network:
     def send(self, data):
         try:
             self.client.send(json.dumps(data).encode())
-
-            d = ""
-            while 1:
-                last = self.client.recv(1024).decode()
-                d += last
-                try:
-                    if d.count(".") == 1:
-                        break
-                except:
-                    pass
-
-            try:
-                if d[-1] == ".":
-                    d = d[:-1]
-            except:
-                pass
+            
+            raw_len_msg = self.recv_all(self.client, 4)
+            len_msg = struct.unpack('>I', raw_len_msg)[0]
+          
+            d = self.recv_all(self.client, len_msg)
 
             keys = [key for key in data.keys()]
-            return json.loads(d)[str(keys[0])]
+            return json.loads(d.decode())[str(keys[0])]
         except socket.error as e:
             self.disconnect(e)
+
+    def recv_all(self, client, n):
+        data = bytearray()
+        while len(data) < n:
+            packet = client.recv(n - len(data))
+            if not packet:
+                break
+            data.extend(packet)
+        return data
+
 
     def disconnect(self, msg):
         print("[EXCEPTION] Disconnected from server:", msg)

@@ -3,6 +3,7 @@ import threading
 from player import Player
 from game import Game
 import json
+import struct
 
 
 class Server(object):
@@ -176,8 +177,9 @@ class Server(object):
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
                         
-                send_msg = json.dumps(send_msg)
-                conn.sendall(send_msg.encode() + ".".encode())
+                send_msg = json.dumps(send_msg).encode()
+                len_msg = struct.pack('>I', len(send_msg))
+                conn.sendall(len_msg + send_msg)
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)
                 break
