@@ -1,5 +1,4 @@
 proxy.ipynb
-ddjd.dio
-proxy.ipynb
-server/__pycache__/game.cpython-312.pyc
-server/__pycache__/round.cpython-312.pyc
+server/__pycache__
+client/__pycache__
+test_win.py
