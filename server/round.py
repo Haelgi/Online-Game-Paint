@@ -74,17 +74,19 @@ class Round(object):
         :param wrd: str
         :return: bool
         """
-        
         # FIXME guess
-        # correct = wrd.lower() == self.word.lower() 
-        # if correct: 
-        #     self.player_guessed.append(player) 
-        #     # TODO implement scoring system here
-        #     self.chat.update_chat(f"{player.name} вгадав слово.")
-        #     return True 
+        correct = wrd.lower() == self.word.lower() 
+        print(correct)
+        print(player.name)
 
-        self.chat.update_chat(f"{player.name}: {wrd}") 
-        # return False
+        if correct: 
+            # self.player_guessed.append(player) 
+            # TODO implement scoring system here
+            self.chat.update_chat(f"{player.name}: вгадав слово")
+        else:
+            self.chat.update_chat(f"{player.name}: {wrd}") 
+
+
 
     def player_left(self, player):
         """

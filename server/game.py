@@ -47,9 +47,8 @@ class Game(object):
         :param guess: str
         :return: bool
         """
-        
-        # FIXME end_game
-        return self.round.guess(player, guess)
+        # FIXME guess
+        self.round.guess(player, guess)
 
     def player_disconnected(self, player):
         """

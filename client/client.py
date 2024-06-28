@@ -11,16 +11,16 @@ class MainMenu:
     def __init__(self):
         """start main menu and lobby stage
         """
-        self.WIDTH = 1000
-        self.HEIGHT = 800
-        self.win = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
+        self.width = 1000
+        self.height = 800
+        self.win = pygame.display.set_mode((self.width, self.height))
         self.name = ""
         self.waiting = False
         self.name_font = pygame.font.SysFont("comicsans", 60)
         self.title_font = pygame.font.SysFont("comicsans", 100)
         self.enter_font = pygame.font.SysFont("comicsans", 30)
         self.player_list=''
-        self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, (255,255,255), "Готовий!")
+        self.start_game_btn = TextButton(self.width/2-100, 500, 200, 60, (255,255,255), "Готовий!")
         self.first_player = False
         
     
@@ -73,7 +73,7 @@ class MainMenu:
 
         self.win.fill(self.BG) 
         title = self.title_font.render("Pictonary!", 1, (0,0,0)) 
-        self.win.blit(title, (self.WIDTH/2 - title.get_width()/2, 50)) 
+        self.win.blit(title, (self.width/2 - title.get_width()/2, 50)) 
 
         name = self.name_font.render("Введіть ім'я: " + self.name, 1, (0,0,0))
         self.win.blit(name, (100, 400))
@@ -82,10 +82,10 @@ class MainMenu:
             self.win.fill(self.BG) 
 
             enter = self.enter_font.render("В черзі...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 200))
+            self.win.blit(enter, (self.width / 2 - enter.get_width() / 2, 200))
 
             enter = self.enter_font.render(self.player_list, 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width() / 2, 320))
+            self.win.blit(enter, (self.width / 2 - enter.get_width() / 2, 320))
 
             self.start_game_btn.draw(self.win)
             mouse = pygame.mouse.get_pos()
@@ -94,12 +94,12 @@ class MainMenu:
 
             if self.start_game_btn.click(*mouse) and pygame.mouse.get_pressed()[0]:
                 self.n.send({-3:[self.name]})
-                self.start_game_btn = TextButton(self.WIDTH/2-100, 500, 200, 60, 'green', "Готовий!", (255,255,255), 'green')
+                self.start_game_btn = TextButton(self.width/2-100, 500, 200, 60, 'green', "Готовий!", (255,255,255), 'green')
                 
 
         else:
             enter = self.enter_font.render("Натисніть enter, щоб приєднатися до гри...", 1, (0, 0, 0))
-            self.win.blit(enter, (self.WIDTH / 2 - enter.get_width()/2, 600))
+            self.win.blit(enter, (self.width / 2 - enter.get_width()/2, 600))
             
         pygame.display.update()
 
