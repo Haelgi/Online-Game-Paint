@@ -3,6 +3,7 @@ import threading
 from player import Player
 from game import Game
 import json
+import struct
 
 
 class Server(object):
@@ -12,7 +13,6 @@ class Server(object):
 
     def __init__(self):
         self.connection_queue = [] # list of queue with obj of player 
-        # player_queue = [] # list of queue with obj of player
         self.game_id = 0
 
 
@@ -42,7 +42,6 @@ class Server(object):
             print("[CONNECT] New connection!")
 
             self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
-            print(self.player_queue)
 
 
     def authentication(self, conn_socket, addr):
@@ -136,11 +135,14 @@ class Server(object):
 
                     if player.game:
                         if key == 0:  # guess
-                            correct = player.game.player_guess(player, data['0'][0]) ################### 0 # получаем слово от клиента вставляем в фунцию (пользователя, слово)
-                            send_msg[0] = correct # записываем в сообщение Thrue or False
+                            # FIXME guess
+                            player.game.player_guess(player, data['0'][0]) ################### 0 # получаем слово от клиента вставляем в фунцию (пользователя, слово)
+                            # send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
-                            skip = player.game.skip(player)
-                            send_msg[1] = skip
+                            pass
+                            # FIXME skip
+                            # skip = player.game.skip(player)
+                            # send_msg[1] = skip
                         elif key == 2:  # get chat
                             content = player.game.round.chat.get_chat()
                             send_msg[2] = content
@@ -159,8 +161,10 @@ class Server(object):
                             word = player.game.round.word
                             send_msg[6] = word
                         elif key == 7:  # get skips
-                            skips = player.game.round.skips
-                            send_msg[7] = skips
+                            pass
+                            # FIXME skip
+                            # skips = player.game.round.skips
+                            # send_msg[7] = skips
                         elif key == 8:  # update board
                             if player.game.round.player_drawing == player:
                                 x, y, color = data['8'][:3]
@@ -173,27 +177,25 @@ class Server(object):
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
                         
-                send_msg = json.dumps(send_msg)
-                print(send_msg) 
-                conn.sendall(send_msg.encode() + ".".encode())
+                send_msg = json.dumps(send_msg).encode()
+                len_msg = struct.pack('>I', len(send_msg))
+                conn.sendall(len_msg + send_msg)
             except Exception as e:
                 print(f"[EXCEPTION] {player.get_name()}:", e)
                 break
         
-        # если цикл прервался но у игрока есть активная игра , вызываем метод отключения
         if player.game:
             player.game.player_disconnected(player)
 
-        # если цикл прервался но игрок есть в очереди на игру , удаляемся из списка
         if player in self.connection_queue:
             self.connection_queue.remove(player)
         try:
             self.player_queue.remove(player.name)
+            self.player_ready[:-1] 
         except:
             pass
         print(F"[DISCONNECT] {player.name} DISCONNECTED")
-        conn.close() # закрываем сокет
-
+        conn.close() 
 
 if __name__ == "__main__":
     s = Server()

@@ -28,22 +28,27 @@ class Game(object):
             self.round = Round(self.get_word(), self.players[self.player_draw_ind], self)
             self.round_count += 1
 
-            if self.player_draw_ind >= len(self.players):
-                self.round_ended()
-                self.end_game()
+            # if self.player_draw_ind >= len(self.players):
+                # FIXME round_ended
+                # self.round_ended()
+                # FIXME end_game
+                # self.end_game()
 
             self.player_draw_ind += 1
         except Exception as e:
-            self.end_game()
+            pass
+            # FIXME end_game
+            # self.end_game()
 
-    def player_guess(self, player, guess): ##################################### 1 # передаем в другую функцию 
+    def player_guess(self, player, guess): 
         """
         Makes the player guess the word
         :param player: Player
         :param guess: str
         :return: bool
         """
-        return self.round.guess(player, guess)
+        # FIXME guess
+        self.round.guess(player, guess)
 
     def player_disconnected(self, player):
         """
@@ -51,22 +56,24 @@ class Game(object):
         :param player: Player
         :raises: Exception()
         """
+        pass
+        # FIXME player_disconnected
+        # if player in self.players:
+        #     self.players.remove(player)
+        #     self.round.player_left(player)
+        #     self.round.chat.update_chat(f"Гравець {player.get_name()} покинув гру.")
+        # else:
+        #     raise Exception("Player not in game")
 
-        if player in self.players:
-            self.players.remove(player)
-            self.round.player_left(player)
-            self.round.chat.update_chat(f"Гравець {player.get_name()} покинув гру.")
-        else:
-            raise Exception("Player not in game")
-
-        if len(self.players) <= 2:
-            self.end_game()
+        # if len(self.players) <= 2:
+        #     self.end_game()
 
     def get_player_scores(self):
         """
         give a dict of player scores.
         :return: dict
         """
+        # FIXME get_player_scores
         scores = {player.name:player.get_score() for player in self.players}
         return scores
 
@@ -76,24 +83,28 @@ class Game(object):
         threshold, starts new round.
         :return: None
         """
-        if self.round:
-            new_round = self.round.skip(player)
-            if new_round:
-                self.round.chat.update_chat(f"Раунд був пропущенний.")
-                self.round_ended()
-                return True
-            return False
-        else:
-            raise Exception("No round started yet!")
+        pass
+        # FIXME skip
+        # if self.round:
+        #     new_round = self.round.skip(player)
+        #     if new_round:
+        #         self.round.chat.update_chat(f"Раунд був пропущенний.")
+        #         self.round_ended()
+        #         return True
+        #     return False
+        # else:
+        #     raise Exception("No round started yet!")
 
     def round_ended(self):
         """
         If the round ends call thiss
         :return: None
         """
-        self.round.chat.update_chat(f"Раунд {self.round_count} закінчився.")
-        self.start_new_round()
-        self.board.clear()
+        pass
+        # FIXME round_ended
+        # self.round.chat.update_chat(f"Раунд {self.round_count} закінчився.")
+        # self.start_new_round()
+        # self.board.clear()
         
 
     def update_board(self, x, y, color):
@@ -113,9 +124,11 @@ class Game(object):
         ends the game
         :return:
         """
-        print(f"[GAME] Game {self.id} ended")
-        for player in self.players:
-            player.game = None
+        pass
+        # FIXME end_game
+        # print(f"[GAME] Game {self.id} ended")
+        # for player in self.players:
+        #     player.game = None
 
     def get_word(self):
         """
@@ -131,7 +144,6 @@ class Game(object):
                     words.append(wrd)
 
         wrd = random.choice(words)
-        print(wrd)
         self.words_used.add(wrd)
 
         return wrd 

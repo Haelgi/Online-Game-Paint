@@ -62,7 +62,8 @@ class Game:
 
         # Check click on skip button
         if self.skip_button.click(*mouse) and not self.drawing:
-            skips = self.connection.send({1:[]})
+            pass
+            # skips = self.connection.send({1:[]})
 
         clicked_board = self.board.click(*mouse)
 
@@ -88,9 +89,7 @@ class Game:
                 self.top_bar.time = response
 
                 # get chat
-                print('client/game 91')
                 response = self.connection.send({2:[]})
-                print('client/game 93' , response)
                 self.chat.update_chat(response)
 
                 # get round info
@@ -121,11 +120,12 @@ class Game:
                         if event.key == pygame.K_RETURN:
                             self.connection.send({0:[self.chat.typing]})
                             self.chat.typing = ""
+                        elif event.key == pygame.K_BACKSPACE:
+                            if len( self.chat.typing) > 0:
+                                self.chat.typing =  self.chat.typing[:-1]
                         else:
                             # gets the key name
-                            key_name = event.unicode
-                           
-                            self.chat.type(key_name)
+                            self.chat.type(event.unicode)
 
         pygame.quit()
 
