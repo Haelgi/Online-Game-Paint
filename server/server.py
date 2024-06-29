@@ -8,10 +8,10 @@ import struct
 
 class Server(object):
     def __init__(self):
-        self.connection_queue = [] # list of queue with obj of player 
+        self.connection_queue = [] 
         self.game_id = 0
-        self.player_queue = [] # list of queue with obj of player
-        self.player_ready = set() # list of queue with obj of player
+        self.player_queue = [] 
+        self.player_ready = set() 
 
 
     def create_new_connection_thread(self):
@@ -39,8 +39,8 @@ class Server(object):
             conn, addr = s.accept() 
             print("[CONNECT] New connection!")
 
-            self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
-            print(len(self.player_queue),' ',len(self.player_ready))
+            self.authentication(conn, addr) 
+
 
 
     def authentication(self, conn_socket, addr):
@@ -128,16 +128,16 @@ class Server(object):
 
                     if key == -1:  # get game, returns a list of players
                         if player.game:
-                            send = {player.get_name():player.get_score() for player in player.game.players} # создаем словарь списка игроков с количеством очков для каждого
-                            send_msg[-1] = send # закидываем словарь в словарь для ответа
+                            send = {player.get_name():player.get_score() for player in player.game.players} 
+                            send_msg[-1] = send 
                         else:
-                            send_msg[-1] = [] # если у игрока не назначена игра, шлем пустой список
+                            send_msg[-1] = [] 
 
 
                     if player.game:
                         if key == 0:  # guess
                             # FIXME guess
-                            player.game.player_guess(player, data['0'][0]) ################### 0 # получаем слово от клиента вставляем в фунцию (пользователя, слово)
+                            player.game.player_guess(player, data['0'][0]) 
                             # send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
                             pass

@@ -63,6 +63,7 @@ class Game:
         # Check click on skip button
         if self.skip_button.click(*mouse) and not self.drawing:
             pass
+            # FIXME skip
             # skips = self.connection.send({1:[]})
 
         clicked_board = self.board.click(*mouse)

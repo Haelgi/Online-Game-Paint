@@ -76,8 +76,6 @@ class Round(object):
         """
         # FIXME guess
         correct = wrd.lower() == self.word.lower() 
-        print(correct)
-        print(player.name)
 
         if correct: 
             # self.player_guessed.append(player) 
@@ -85,6 +83,7 @@ class Round(object):
             self.chat.update_chat(f"{player.name}: вгадав слово")
         else:
             self.chat.update_chat(f"{player.name}: {wrd}") 
+            player.score + 1
 
 
 
