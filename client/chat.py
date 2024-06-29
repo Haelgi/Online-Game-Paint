@@ -5,7 +5,7 @@ class Chat:
         self.x = x
         self.y = y
         self.WIDTH = 210
-        self.HEIGHT = 700
+        self.HEIGHT = 650
         self.BORDER_THICKNESS = 5
         self.content = []
         self.typing = ""

@@ -12,7 +12,7 @@ class MainMenu:
         """start main menu and lobby stage
         """
         self.width = 1000
-        self.height = 800
+        self.height = 750
         self.win = pygame.display.set_mode((self.width, self.height))
         self.name = ""
         self.waiting = False

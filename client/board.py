@@ -2,7 +2,7 @@ import pygame
 
 
 class Board(object):
-    ROWS = 120
+    ROWS = 110
     COLS = 110
     scale = 5
     COLORS = {

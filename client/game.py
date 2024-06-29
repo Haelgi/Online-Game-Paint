@@ -33,8 +33,8 @@ class Game:
         self.top_bar.change_round(1)
         self.chat = Chat(780, 85)
         self.players = []
-        self.skip_button = TextButton(10, 700, 200, 60, (255,255,255), "Пропустити")
-        self.bottom_bar = BottomBar(215,700,self)
+        self.skip_button = TextButton(10, 650, 200, 60, (255,255,255), "Пропустити")
+        self.bottom_bar = BottomBar(215,650,self)
         self.draw_color = (0,0,0)
         self.drawing = False
 
