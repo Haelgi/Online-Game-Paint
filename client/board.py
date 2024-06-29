@@ -52,7 +52,6 @@ class Board(object):
         col = int((y - self.y)/self.scale)
 
         if 0 <= row < self.ROWS and 0 <= col < self.COLS-1:
-            print('draww')
             return row, col
 
         return None
