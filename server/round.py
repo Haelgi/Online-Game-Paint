@@ -35,10 +35,10 @@ class Round(object):
             self.players_skipped.append(player)
             self.skips += 1
             self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
-            if self.skips >= len(self.game.players) - 2:
+            if self.skips >= len(self.game.players)-1:
                 return True
 
-        # return False
+        return False
 
     def get_scores(self):
         """
