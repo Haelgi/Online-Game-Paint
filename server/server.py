@@ -7,13 +7,11 @@ import struct
 
 
 class Server(object):
-    player_queue = [] # list of queue with obj of player
-    player_ready = set() # list of queue with obj of player
-
-
     def __init__(self):
         self.connection_queue = [] # list of queue with obj of player 
         self.game_id = 0
+        self.player_queue = [] # list of queue with obj of player
+        self.player_ready = set() # list of queue with obj of player
 
 
     def create_new_connection_thread(self):
@@ -42,6 +40,7 @@ class Server(object):
             print("[CONNECT] New connection!")
 
             self.authentication(conn, addr) # авторизируем каждого игрока по отдельности
+            print(len(self.player_queue),' ',len(self.player_ready))
 
 
     def authentication(self, conn_socket, addr):
@@ -104,6 +103,7 @@ class Server(object):
             player (obj): one player object
         """
         while True: 
+            
             try:
                 try:
                     data = conn.recv(1024)
@@ -118,9 +118,10 @@ class Server(object):
 
                 for key in keys: # start current game
                     if key == -3:
-                        self.player_ready.add(data['-3'][0])
                         if 1 < len(self.player_queue) == len(self.player_ready):  
                             self.start_game()
+                            self.player_ready = set()
+                        self.player_ready.add(data['-3'][0])
 
                     if key == -2:  # get game, returns a list of players
                         send_msg[-2] = self.player_queue

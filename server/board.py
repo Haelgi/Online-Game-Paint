@@ -22,7 +22,7 @@ class Board(object):
         """
         neighs = [(x, y)] + self.get_neighbour(x, y)
         for x, y in neighs:
-            if 0 <= x <= self.COLS and 0 <= y <= self.ROWS:
+            if 0 <= x < self.COLS and 0 <= y < self.ROWS:
                 self.data[y][x] = color
 
     def get_neighbour(self,x,y):
