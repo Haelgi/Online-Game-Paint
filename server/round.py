@@ -14,10 +14,10 @@ class Round(object):
         self.word = word
         self.player_drawing = player_drawing
         # FIXME guessed
-        # self.player_guessed = []
+        self.player_guessed = []
         # FIXME skip
-        # self.players_skipped = []
-        # self.skips = 0
+        self.players_skipped = []
+        self.skips = 0
         self.time = 75
         self.game = game
         self.player_scores = {player: 0 for player in self.game.players}
@@ -29,14 +29,14 @@ class Round(object):
         Returns true if round skipped threshold met
         :return: bool
         """
-        pass
+        # pass
         # FIXME skip
-        # if player not in self.players_skipped:
-        #     self.players_skipped.append(player)
-        #     self.skips += 1
-        #     self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
-        #     if self.skips >= len(self.game.players) - 2:
-        #         return True
+        if player not in self.players_skipped:
+            self.players_skipped.append(player)
+            self.skips += 1
+            self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
+            if self.skips >= len(self.game.players) - 2:
+                return True
 
         # return False
 
@@ -78,12 +78,13 @@ class Round(object):
         correct = wrd.lower() == self.word.lower() 
 
         if correct: 
-            # self.player_guessed.append(player) 
             # TODO implement scoring system here
-            self.chat.update_chat(f"{player.name}: вгадав слово")
+            if player not in self.player_guessed:
+                self.player_guessed.append(player)
+                self.chat.update_chat(f"{player.name}: вгадав слово")
+                player.update_score(1)
         else:
             self.chat.update_chat(f"{player.name}: {wrd}") 
-            player.score + 1
 
 
 
@@ -93,23 +94,23 @@ class Round(object):
         :param player: Player
         :return: None
         """
-        pass
+        # pass
         # FIXME player_left
 
-        # if player in self.player_scores:
-        #     del self.player_scores[player]
+        if player in self.player_scores:
+            del self.player_scores[player]
 
-        # if player in self.player_guessed:
-        #     self.player_guessed.remove(player)
+        if player in self.player_guessed:
+            self.player_guessed.remove(player)
 
-        # if player == self.player_drawing:
-        #     self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
-        #     self.end_round("Гравець що малював покинув гру")
+        if player == self.player_drawing:
+            self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
+            self.end_round("Гравець що малював покинув гру")
 
     def end_round(self, msg):
-        pass
+        # pass
         # FIXME player_left
-        # for player in self.game.players:
-        #     if player in self.player_scores:
-        #         player.update_score(self.player_scores[player])
-        # self.game.round_ended()
+        for player in self.game.players:
+            if player in self.player_scores:
+                player.update_score(self.player_scores[player])
+        self.game.round_ended()

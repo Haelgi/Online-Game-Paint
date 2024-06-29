@@ -140,10 +140,10 @@ class Server(object):
                             player.game.player_guess(player, data['0'][0]) 
                             # send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
-                            pass
+                            # pass
                             # FIXME skip
-                            # skip = player.game.skip(player)
-                            # send_msg[1] = skip
+                            skip = player.game.skip(player)
+                            send_msg[1] = skip
                         elif key == 2:  # get chat
                             content = player.game.round.chat.get_chat()
                             send_msg[2] = content
@@ -162,10 +162,10 @@ class Server(object):
                             word = player.game.round.word
                             send_msg[6] = word
                         elif key == 7:  # get skips
-                            pass
+                            # pass
                             # FIXME skip
-                            # skips = player.game.round.skips
-                            # send_msg[7] = skips
+                            skips = player.game.round.skips
+                            send_msg[7] = skips
                         elif key == 8:  # update board
                             if player.game.round.player_drawing == player:
                                 x, y, color = data['8'][:3]

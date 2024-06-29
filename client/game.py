@@ -62,9 +62,9 @@ class Game:
 
         # Check click on skip button
         if self.skip_button.click(*mouse) and not self.drawing:
-            pass
+            # pass
             # FIXME skip
-            # skips = self.connection.send({1:[]})
+            skips = self.connection.send({1:[]})
 
         clicked_board = self.board.click(*mouse)
 
@@ -101,9 +101,9 @@ class Game:
                 self.top_bar.max_round = len(self.players)
 
             except:
-                # run = False
-                # break
-                pass
+                run = False
+                break
+                # pass
 
             self.draw()
 

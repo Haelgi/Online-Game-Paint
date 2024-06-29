@@ -35,18 +35,18 @@ class Player(object):
         :param wrd: str
         :return: bool
         """
-        pass
+        # pass
         # FIXME guess
-        # return self.game.player_guess(self,wrd)
+        return self.game.player_guess(self,wrd)
 
     def disconnect(self):
         """
         call to disconnect player
         :return: Nones
         """
-        pass
+        # pass
         # FIXME disconnect
-        # self.game.player_disconnected(self)
+        self.game.player_disconnected(self)
 
     def get_ip(self):
         """
