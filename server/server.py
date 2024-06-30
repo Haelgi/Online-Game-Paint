@@ -137,7 +137,8 @@ class Server(object):
                     if player.game:
                         if key == 0:  # guess
                             # FIXME guess
-                            player.game.player_guess(player, data['0'][0]) 
+                            player.game.player_guess(player, data['0'][0])
+                            skip = player.game.skip(player) 
                             # send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
                             # pass

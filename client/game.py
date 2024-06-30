@@ -132,7 +132,6 @@ class Game:
                             if len( self.chat.typing) > 0:
                                 self.chat.typing =  self.chat.typing[:-1]
                         else:
-                            # gets the key name
                             self.chat.type(event.unicode)
 
         pygame.quit()

@@ -18,7 +18,7 @@ class Game(object):
         self.round = None
         self.board = Board()
         self.player_draw_ind = 0
-        self.round_count = 1
+        self.round_count = 0
         self.start_new_round()
 
     def start_new_round(self):
@@ -86,9 +86,13 @@ class Game(object):
         # pass
         # FIXME skip
         if self.round:
-            new_round = self.round.skip(player)
-            if new_round:
+            new_round_skip = self.round.skip(player)
+            new_round_guessed = len(self.round.players_skipped)+len(self.round.player_guessed) == len(self.players)-1
+            if new_round_skip :
                 self.round.chat.update_chat(f"Раунд був пропущенний.")
+                self.round_ended()
+                return True
+            if new_round_guessed :
                 self.round_ended()
                 return True
             return False
@@ -124,11 +128,11 @@ class Game(object):
         ends the game
         :return:
         """
-        pass
+        # pass
         # FIXME end_game
-        # print(f"[GAME] Game {self.id} ended")
-        # for player in self.players:
-        #     player.game = None
+        print(f"[GAME] Game {self.id} ended")
+        for player in self.players:
+            player.game = None
 
     def get_word(self):
         """

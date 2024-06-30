@@ -18,7 +18,7 @@ class Round(object):
         # FIXME skip
         self.players_skipped = []
         self.skips = 0
-        self.time = 75
+        self.time = 5
         self.game = game
         self.player_scores = {player: 0 for player in self.game.players}
         self.chat = Chat(self)
@@ -34,7 +34,7 @@ class Round(object):
         if player not in self.players_skipped:
             self.players_skipped.append(player)
             self.skips += 1
-            self.chat.update_chat(f"Гравець проголосував за пропуск ({self.skips}/{len(self.game.players) -2})")
+            self.chat.update_chat(f"Гравець {player.name} проголосував за пропуск")
             if self.skips >= len(self.game.players)-1:
                 return True
 
