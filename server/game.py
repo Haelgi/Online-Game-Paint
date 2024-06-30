@@ -25,15 +25,26 @@ class Game(object):
         """Starts a new round with a new word
         """
         try:
+
+            if self.player_draw_ind > len(self.players)-1:
+                self.player_draw_ind = 0
+
             self.round = Round(self.get_word(), self.players[self.player_draw_ind], self)
+
             self.round_count += 1
 
-            if self.player_draw_ind >= len(self.players):
+            if self.round_count >= len(self.players)*2:
                 self.round_ended()
                 self.end_game()
 
             self.player_draw_ind += 1
+            if self.player_draw_ind > len(self.players):
+                self.player_draw_ind = 0
+
+            print('40 game')
         except Exception as e:
+            pass
+            print('43 game')
             self.end_game()
 
     def player_guess(self, player, guess): 
@@ -66,7 +77,8 @@ class Game(object):
         else:
             raise Exception("Player not in game")
 
-        if len(self.players) <= 2:
+        if len(self.players) < 2:
+            print('72 game')
             self.end_game()
 
     def get_player_scores(self):

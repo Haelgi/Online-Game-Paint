@@ -102,4 +102,5 @@ class Round(object):
         for player in self.game.players:
             if player in self.player_scores:
                 player.update_score(self.player_scores[player])
+        print('105 round ruls')        
         self.game.round_ended()

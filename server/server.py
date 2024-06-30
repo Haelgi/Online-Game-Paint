@@ -17,7 +17,7 @@ class Server(object):
     def create_new_connection_thread(self):
         """create new connection for listening to one incoming connection
         """
-        server = "192.168.1.104"
+        server = "localhost"
         port = 5555
 
         # create socet (IPv4, TCP)
@@ -137,9 +137,8 @@ class Server(object):
                     if player.game:
                         if key == 0:  # guess
                             player.game.player_guess(player, data['0'][0])
-                            
 
-                        elif key == 1:
+                        elif key == 1: # skip
                             skip = player.game.skip(player)
                             send_msg[1] = skip
                         elif key == 2:  # get chat
@@ -153,7 +152,7 @@ class Server(object):
                         elif key == 4:  # get score
                             scores = player.game.get_player_scores()
                             send_msg[4] = scores
-                            player.game.end_round()
+                            
                         elif key == 5:  # get round
                             rnd = player.game.round_count
                             send_msg[5] = rnd
@@ -174,6 +173,9 @@ class Server(object):
                             player.game.board.clear()
                         elif key == 11:
                             send_msg[11] = player.game.round.player_drawing == player
+                        elif key == 12:
+                            send_msg[12] = player.game.end_round()
+                            
                         
                 send_msg = json.dumps(send_msg).encode()
                 len_msg = struct.pack('>I', len(send_msg))

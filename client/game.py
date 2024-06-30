@@ -102,11 +102,14 @@ class Game:
                 self.top_bar.round = self.connection.send({5:[]})
                 self.drawing = self.connection.send({11:[]})
                 self.top_bar.drawing = self.drawing
-                self.top_bar.max_round = len(self.players)
+                self.top_bar.max_round = len(self.players)*2
 
                 # get round scores
                 round_scores = self.connection.send({4:[]})
                 self.update_scorse_for_player(round_scores)
+
+                # end round?
+                self.connection.send({12:[]})
 
                 
 
