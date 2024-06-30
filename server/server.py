@@ -137,7 +137,7 @@ class Server(object):
                     if player.game:
                         if key == 0:  # guess
                             player.game.player_guess(player, data['0'][0])
-                            skip = player.game.skip(player) 
+
                         elif key == 1:
                             skip = player.game.skip(player)
                             send_msg[1] = skip

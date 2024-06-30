@@ -44,6 +44,12 @@ class Game(object):
         :return: bool
         """
         self.round.guess(player, guess)
+        
+        new_round_guessed = len(self.round.players_skipped)+len(self.round.player_guessed) == len(self.players)-1
+        if new_round_guessed :
+            self.round_ended()
+            
+
 
     def player_disconnected(self, player):
         """
