@@ -94,11 +94,18 @@ class Game:
                 self.chat.update_chat(response)
 
                 # get round info
-                self.top_bar.word = self.connection.send({6:[]}) # получаю слово
+                self.top_bar.word = self.connection.send({6:[]}) 
                 self.top_bar.round = self.connection.send({5:[]})
                 self.drawing = self.connection.send({11:[]})
                 self.top_bar.drawing = self.drawing
                 self.top_bar.max_round = len(self.players)
+                round_scores = self.connection.send({4:[]})
+                for name in round_scores:
+                    for player in self.players:
+                        if player.name == name:
+                            player.score = round_scores[name]
+                
+
 
             except:
                 run = False
