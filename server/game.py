@@ -29,15 +29,11 @@ class Game(object):
             self.round_count += 1
 
             if self.player_draw_ind >= len(self.players):
-                # FIXME round_ended
                 self.round_ended()
-                # FIXME end_game
                 self.end_game()
 
             self.player_draw_ind += 1
         except Exception as e:
-            pass
-            # FIXME end_game
             self.end_game()
 
     def player_guess(self, player, guess): 
@@ -47,7 +43,6 @@ class Game(object):
         :param guess: str
         :return: bool
         """
-        # FIXME guess
         self.round.guess(player, guess)
 
     def player_disconnected(self, player):
@@ -56,8 +51,7 @@ class Game(object):
         :param player: Player
         :raises: Exception()
         """
-        # pass
-        # FIXME player_disconnected
+
         if player in self.players:
             self.players.remove(player)
             self.round.player_left(player)
@@ -73,7 +67,6 @@ class Game(object):
         give a dict of player scores.
         :return: dict
         """
-        # FIXME get_player_scores
         scores = {player.name:player.get_score() for player in self.players}
         return scores
 
@@ -83,8 +76,6 @@ class Game(object):
         threshold, starts new round.
         :return: None
         """
-        # pass
-        # FIXME skip
         if self.round:
             new_round_skip = self.round.skip(player)
             new_round_guessed = len(self.round.players_skipped)+len(self.round.player_guessed) == len(self.players)-1
@@ -104,8 +95,6 @@ class Game(object):
         If the round ends call thiss
         :return: None
         """
-        # pass
-        # FIXME round_ended
         self.round.chat.update_chat(f"Раунд {self.round_count} закінчився.")
         self.start_new_round()
         self.board.clear()
@@ -128,8 +117,6 @@ class Game(object):
         ends the game
         :return:
         """
-        # pass
-        # FIXME end_game
         print(f"[GAME] Game {self.id} ended")
         for player in self.players:
             player.game = None

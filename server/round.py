@@ -13,12 +13,10 @@ class Round(object):
         """
         self.word = word
         self.player_drawing = player_drawing
-        # FIXME guessed
         self.player_guessed = []
-        # FIXME skip
         self.players_skipped = []
         self.skips = 0
-        self.time = 5
+        self.time = 75
         self.game = game
         self.player_scores = {player: 0 for player in self.game.players}
         self.chat = Chat(self)
@@ -29,8 +27,6 @@ class Round(object):
         Returns true if round skipped threshold met
         :return: bool
         """
-        # pass
-        # FIXME skip
         if player not in self.players_skipped:
             self.players_skipped.append(player)
             self.skips += 1
@@ -74,11 +70,9 @@ class Round(object):
         :param wrd: str
         :return: bool
         """
-        # FIXME guess
         correct = wrd.lower() == self.word.lower() 
 
         if correct: 
-            # TODO implement scoring system here
             if player not in self.player_guessed:
                 self.player_guessed.append(player)
                 self.chat.update_chat(f"{player.name}: вгадав слово")
@@ -94,9 +88,6 @@ class Round(object):
         :param player: Player
         :return: None
         """
-        # pass
-        # FIXME player_left
-
         if player in self.player_scores:
             del self.player_scores[player]
 
@@ -107,9 +98,7 @@ class Round(object):
             self.chat.update_chat("Раунд пропущено, оскільки гравець що малював покинув гру.")
             self.end_round("Гравець що малював покинув гру")
 
-    def end_round(self, msg):
-        # pass
-        # FIXME player_left
+    def end_round(self):
         for player in self.game.players:
             if player in self.player_scores:
                 player.update_score(self.player_scores[player])

@@ -136,13 +136,9 @@ class Server(object):
 
                     if player.game:
                         if key == 0:  # guess
-                            # FIXME guess
                             player.game.player_guess(player, data['0'][0])
                             skip = player.game.skip(player) 
-                            # send_msg[0] = correct # записываем в сообщение Thrue or False
                         elif key == 1:
-                            # pass
-                            # FIXME skip
                             skip = player.game.skip(player)
                             send_msg[1] = skip
                         elif key == 2:  # get chat
@@ -163,8 +159,6 @@ class Server(object):
                             word = player.game.round.word
                             send_msg[6] = word
                         elif key == 7:  # get skips
-                            # pass
-                            # FIXME skip
                             skips = player.game.round.skips
                             send_msg[7] = skips
                         elif key == 8:  # update board

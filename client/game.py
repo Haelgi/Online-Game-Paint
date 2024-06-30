@@ -1,12 +1,11 @@
 import pygame
-from button import Button, TextButton
+from button import TextButton
 from board import Board
 from top_bar import TopBar
 from leadboard import Leaderboard
-from player import Player
 from bottom_bar import BottomBar
 from chat import Chat
-from network import Network
+
 
 
 class Game:
@@ -62,8 +61,7 @@ class Game:
 
         # Check click on skip button
         if self.skip_button.click(*mouse) and not self.drawing:
-            # pass
-            # FIXME skip
+
             skips = self.connection.send({1:[]})
 
         clicked_board = self.board.click(*mouse)

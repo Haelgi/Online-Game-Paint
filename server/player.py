@@ -1,6 +1,3 @@
-from game import Game
-
-
 class Player(object):
     def __init__(self, ip, name):
         """
@@ -35,8 +32,6 @@ class Player(object):
         :param wrd: str
         :return: bool
         """
-        # pass
-        # FIXME guess
         return self.game.player_guess(self,wrd)
 
     def disconnect(self):
@@ -44,8 +39,6 @@ class Player(object):
         call to disconnect player
         :return: Nones
         """
-        # pass
-        # FIXME disconnect
         self.game.player_disconnected(self)
 
     def get_ip(self):

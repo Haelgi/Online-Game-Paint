@@ -2,7 +2,7 @@ import pygame
 from network import Network
 from game import Game
 from player import Player
-from button import Button, TextButton
+from button import TextButton
 
 
 class MainMenu:

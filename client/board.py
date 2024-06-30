@@ -1,6 +1,5 @@
 import pygame
 
-
 class Board(object):
     ROWS = 110
     COLS = 110
