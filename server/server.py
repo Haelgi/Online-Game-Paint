@@ -137,6 +137,7 @@ class Server(object):
                     if player.game:
                         if key == 0:  # guess
                             player.game.player_guess(player, data['0'][0])
+                            
 
                         elif key == 1:
                             skip = player.game.skip(player)
@@ -152,6 +153,7 @@ class Server(object):
                         elif key == 4:  # get score
                             scores = player.game.get_player_scores()
                             send_msg[4] = scores
+                            player.game.end_round()
                         elif key == 5:  # get round
                             rnd = player.game.round_count
                             send_msg[5] = rnd

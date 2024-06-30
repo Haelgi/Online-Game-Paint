@@ -44,13 +44,14 @@ class Game(object):
         :return: bool
         """
         self.round.guess(player, guess)
-        
+
+    def end_round(self):
         new_round_guessed = len(self.round.players_skipped)+len(self.round.player_guessed) == len(self.players)-1
+  
         if new_round_guessed :
             self.round_ended()
-            
 
-
+       
     def player_disconnected(self, player):
         """
         Call to clean up objects when player disconnects
@@ -84,12 +85,9 @@ class Game(object):
         """
         if self.round:
             new_round_skip = self.round.skip(player)
-            new_round_guessed = len(self.round.players_skipped)+len(self.round.player_guessed) == len(self.players)-1
+            
             if new_round_skip :
                 self.round.chat.update_chat(f"Раунд був пропущенний.")
-                self.round_ended()
-                return True
-            if new_round_guessed :
                 self.round_ended()
                 return True
             return False
