@@ -69,6 +69,12 @@ class Game:
         if clicked_board:
             self.board.update(*clicked_board, self.draw_color)
             self.connection.send({8:[*clicked_board, self.COLORS[tuple(self.draw_color)]]})
+    
+    def update_scorse_for_player(self, round_scores):
+        for name in round_scores:
+            for player in self.players:
+                if player.name == name:
+                    player.score = round_scores[name]
 
     def run(self):
         run = True
@@ -97,18 +103,17 @@ class Game:
                 self.drawing = self.connection.send({11:[]})
                 self.top_bar.drawing = self.drawing
                 self.top_bar.max_round = len(self.players)
+
+                # get round scores
                 round_scores = self.connection.send({4:[]})
-                for name in round_scores:
-                    for player in self.players:
-                        if player.name == name:
-                            player.score = round_scores[name]
+                self.update_scorse_for_player(round_scores)
+
                 
 
 
             except:
                 run = False
                 break
-                # pass
 
             self.draw()
 
