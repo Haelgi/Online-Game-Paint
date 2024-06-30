@@ -33,18 +33,13 @@ class Game(object):
 
             self.round_count += 1
 
-            if self.round_count >= len(self.players)*2:
+            if self.round_count >= len(self.players)*2+1:
                 self.round_ended()
                 self.end_game()
 
             self.player_draw_ind += 1
-            if self.player_draw_ind > len(self.players):
-                self.player_draw_ind = 0
 
-            print('40 game')
         except Exception as e:
-            pass
-            print('43 game')
             self.end_game()
 
     def player_guess(self, player, guess): 

@@ -88,6 +88,10 @@ class Game:
                 if response:
                     self.board.compressed_board = response
                     self.board.translate_board()
+                    
+                # get round scores
+                round_scores = self.connection.send({4:[]})
+                self.update_scorse_for_player(round_scores)
 
                 # get time
                 response = self.connection.send({9:[]})
@@ -104,9 +108,6 @@ class Game:
                 self.top_bar.drawing = self.drawing
                 self.top_bar.max_round = len(self.players)*2
 
-                # get round scores
-                round_scores = self.connection.send({4:[]})
-                self.update_scorse_for_player(round_scores)
 
                 # end round?
                 self.connection.send({12:[]})
