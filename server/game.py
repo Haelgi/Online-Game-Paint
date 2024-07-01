@@ -73,7 +73,6 @@ class Game(object):
             raise Exception("Player not in game")
 
         if len(self.players) < 2:
-            print('72 game')
             self.end_game()
 
     def get_player_scores(self):
