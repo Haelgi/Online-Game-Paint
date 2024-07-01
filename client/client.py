@@ -72,7 +72,7 @@ class MainMenu:
     def draw(self):
 
         self.win.fill(self.BG) 
-        title = self.title_font.render("Pictonary!", 1, (0,0,0)) 
+        title = self.title_font.render("Крокодил!", 1, (0,0,0)) 
         self.win.blit(title, (self.width/2 - title.get_width()/2, 50)) 
 
         name = self.name_font.render("Введіть ім'я: " + self.name, 1, (0,0,0))
