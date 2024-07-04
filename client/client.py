@@ -5,6 +5,8 @@ from player import Player
 from button import TextButton
 
 
+
+
 class MainMenu:
     BG = (255,255,255)
 
@@ -27,6 +29,7 @@ class MainMenu:
     def run(self):
         """master loop main menu
         """
+        
         run = True
         clock = pygame.time.Clock()
 
@@ -57,7 +60,7 @@ class MainMenu:
                 if event.type == pygame.QUIT:
                     run = False
                     pygame.quit()
-                    quit()
+                    # quit()
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
@@ -70,7 +73,7 @@ class MainMenu:
                         self.type(event.unicode)
 
     def draw(self):
-
+        pygame.init()
         self.win.fill(self.BG) 
         title = self.title_font.render("Крокодил!", 1, (0,0,0)) 
         self.win.blit(title, (self.width/2 - title.get_width()/2, 50)) 

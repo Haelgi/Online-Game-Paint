@@ -49,8 +49,7 @@ class Server(object):
             crete thread for interactions with user
 
         Args:
-            conn (obj): socket for server and new user <socket.socket fd=452, family=2, type=1, proto=0, laddr=('192.168.1.104', 5555), raddr=('192.168.1.104', 53538)>
-            addr (tuple): ip and port new user ('192.168.1.104', 53538)
+            conn (obj): socket for server and new user 
 
         Raises:
             Exception: if there is any error, close connection
