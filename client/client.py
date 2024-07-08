@@ -29,6 +29,7 @@ class MainMenu:
     def run(self):
         """master loop main menu
         """
+        pygame.font.init()
         
         run = True
         clock = pygame.time.Clock()
