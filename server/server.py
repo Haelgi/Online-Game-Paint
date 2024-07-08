@@ -17,7 +17,7 @@ class Server(object):
     def create_new_connection_thread(self):
         """create new connection for listening to one incoming connection
         """
-        server = "localhost"
+        server = "192.168.1.104"
         port = 5555
 
         # create socet (IPv4, TCP)
@@ -66,7 +66,7 @@ class Server(object):
 
             player = Player(addr, name)
             self.handle_queue(player)    
-
+            
             thread = threading.Thread(target=self.player_thread, args=(conn_socket, player))
             thread.start()
         except Exception as e:
